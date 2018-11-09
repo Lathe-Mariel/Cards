@@ -3,7 +3,7 @@ package hakubishin;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import hakubishin.card_operations.Cards;
+import hakubishin.card_operations.CardUtil;
 
 public class OldMaid implements Ruler {
 	private CardGameObserver cgo;
@@ -12,7 +12,7 @@ public class OldMaid implements Ruler {
 	public OldMaid() {
 		selectedCards =new  ArrayList<Card>();
 	}
-	
+
 	public void start() {
 		cgo.createPlayer(54, "うさぎ～ぬ");
 		cgo.createPlayer(54, "ハクビ神");
@@ -27,7 +27,7 @@ public class OldMaid implements Ruler {
 		if(selectedCards.size()> 2) {
 			for(Iterator<Card> i = selectedCards.iterator(); i.hasNext();) {
 				Card card = i.next();
-				card.isClicked = false;
+				card.setClicked(false);
 				card.repaint();
 			}
 			selectedCards.clear();
@@ -42,25 +42,25 @@ public class OldMaid implements Ruler {
 		if(card1.getNumber() == card2.getNumber()) {
 			selectedCards.remove(0);
 			selectedCards.remove(0);
-			Cards.sendCard(card1, cgo.players.get(0), cgo.cardsStock);
-			Cards.sendCard(card2, cgo.players.get(0), cgo.cardsStock);
+			CardUtil.sendCard(card1, cgo.players.get(0), cgo.cardsStock);
+			CardUtil.sendCard(card2, cgo.players.get(0), cgo.cardsStock);
 			cgo.frame.removeCard(0,  card1);
 			cgo.frame.removeCard(0,  card2);
 			return true;
 		}
 		return false;
 	}
-	
+
 	public void cardSelected(Card card) {
 		if(selectedCards.size()>2) {
-			card.isClicked = false;
+			card.setClicked(false);
 			card.repaint();
 			return;
-			
+
 		}
-		if (card.isClicked) {
+		if (card.isClicked()) {
 			selectedCards.add(card);
-		}else if(!card.isClicked) {
+		}else if(!card.isClicked()) {
 			selectedCards.remove(card);
 		}
 		checkSameCards();

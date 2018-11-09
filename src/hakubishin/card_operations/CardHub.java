@@ -22,7 +22,6 @@ public class CardHub{
 	}
 	boolean add(Card card) {
 		cards.add(card);
-
 		return true;
 	}
 	boolean remove(Card card) {
@@ -31,16 +30,19 @@ public class CardHub{
 		return true;}
 		return false;
 	}
-	
-	public Card picup() {
+
+	public Card next() {
 		if(cards.size() == 0)return null;
 		return cards.get(0);
 	}
-	
+
+	public ArrayList<Card> getCardList() {
+		return cards;
+	}
 	public void reshuffle() {
 		Collections.shuffle(cards);
 	}
-	
+
 	public void showCards(JPanel panel) {
 		for(Iterator<Card> i = cards.iterator(); i.hasNext();) {
 			panel.add(i.next());

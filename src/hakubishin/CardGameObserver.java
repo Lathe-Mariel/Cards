@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import hakubishin.card_operations.CardHub;
-import hakubishin.card_operations.Cards;
+import hakubishin.card_operations.CardUtil;
 import hakubishin.card_operations.Player;
 
 public class CardGameObserver {
@@ -25,8 +25,9 @@ public class CardGameObserver {
 			e.printStackTrace();
 		}
 	cardsStock = new CardHub();
-	Cards.createNewCards(cardsStock, true);
-	Card.observer = this;
+	CardUtil.createNewCards(cardsStock, true);
+	CardUtil.allFaceUp(cardsStock.getCardList());
+	Card.setObserver(this);
 	}
 
 	public void setRuler(Ruler ruler) {
@@ -48,9 +49,9 @@ public class CardGameObserver {
 	public int provideCards(int number, int playerIndex) {
 		int sended = 0;
 		for(int i = 0; i < number; i++) {
-			Card card = cardsStock.picup();
+			Card card = cardsStock.next();
 			if(card == null)break;
-			Cards.sendCard(card, cardsStock,  players.get(playerIndex));
+			CardUtil.sendCard(card, cardsStock,  players.get(playerIndex));
 			frame.addCard(playerIndex, card);
 			sended++;
 		}
