@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,13 +17,21 @@ import javax.swing.border.EmptyBorder;
 
 public class CardPlayField extends JFrame {
 	CardGameObserver controller;
+	ArrayList<Card> cards1;
 
 	public void setController(CardGameObserver go) {
 		this.controller = go;
 	}
 
 	public void addCard(int field, Card card) {
+		//cards1.add(card);
 		fieldPanel[field].add(card);
+		revalidate();
+		repaint();
+	}
+	
+	public void removeCard(int field, Card card) {
+		fieldPanel[field].remove(card);
 		revalidate();
 		repaint();
 	}
@@ -49,6 +58,8 @@ public class CardPlayField extends JFrame {
 	 * Create the frame.
 	 */
 	public CardPlayField() {
+		cards1 = new ArrayList<Card>();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 500);
 		contentPane = new JPanel();

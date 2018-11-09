@@ -42,7 +42,11 @@ static {
 		observer.fire(this);
 	}
 
-
+	public int getNumber() {
+		return 0;
+	}
+	
+	
 	public Dimension getPreferredSize() {
 		return new Dimension(50,80);
 	}

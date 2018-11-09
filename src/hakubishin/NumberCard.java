@@ -60,6 +60,10 @@ public class NumberCard extends Card {
 			symbol = Integer.valueOf(number).toString();
 		}
 	}
+	
+	public int getNumber() {
+		return number;
+	}
 
 	public void paintComponent(Graphics g) {
 		//super.paintComponent(g);
