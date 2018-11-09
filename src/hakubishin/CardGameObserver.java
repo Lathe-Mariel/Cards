@@ -14,7 +14,7 @@ public class CardGameObserver {
 	CardHub cardsStock;
 	CardPlayField frame = null;
 	ArrayList<Player> players;
-	
+
 	public void init() {
 		players = new ArrayList<Player>();
 		try {
@@ -26,20 +26,25 @@ public class CardGameObserver {
 		}
 	cardsStock = new CardHub();
 	Cards.createNewCards(cardsStock, true);
+	Card.observer = this;
 	}
-	
+
 	public void setRuler(Ruler ruler) {
 		this.ruler = ruler;
 	}
-	
+
 	public void createPlayer(int max, String name) {
 		players.add(new Player(name, max));
 	}
-	
+
+	public void fire(Card card) {
+		ruler.cardSelected(card);
+	}
+
 //	public void setPlayPanel(JPanel panel, int index) {
 //		this.panel[index] = panel;
 //	}
-	
+
 	public int provideCards(int number, int playerIndex) {
 		int sended = 0;
 		for(int i = 0; i < number; i++) {

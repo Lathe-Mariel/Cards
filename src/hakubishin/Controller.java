@@ -9,6 +9,7 @@ public class Controller {
 		OldMaid baba = new OldMaid();
 		baba.setObserver(go);
 		baba.start();
+		go.setRuler(baba);
 	}
 
 }

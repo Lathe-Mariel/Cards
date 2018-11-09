@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
 
 public class NumberCard extends Card {
 	int number;
-	String symbol;
 	String type;
 	Color color = Color.black;
 
@@ -64,11 +63,10 @@ public class NumberCard extends Card {
 
 	public void paintComponent(Graphics g) {
 		//super.paintComponent(g);
-		g.drawImage(image, 0, 0, this);
 		Font font = new Font("SansSerif", Font.BOLD, 30);
 		g.setFont(font);
 		g.setColor(color);
-		g.drawString(symbol, x, y);
+		super.paintComponent(g);
 	}
 
 	public String toString() {
