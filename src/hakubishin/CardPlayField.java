@@ -71,10 +71,10 @@ public class CardPlayField extends JFrame {
 		panel.setPreferredSize(new Dimension(10, 60));
 		contentPane.add(panel, BorderLayout.NORTH);
 
-		JButton button = new JButton("配る<Send>");
+		JButton button = new JButton("同じカードを捨てる<throw away doubled cards>");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				controller.sendCommand(0);
 			}
 		});
 		panel.add(button);

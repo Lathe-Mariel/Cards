@@ -42,12 +42,8 @@ public class OldMaid implements Ruler {
 		if (selectedCards.size() != 2)
 			return false;
 		if (card1.getNumber() == card2.getNumber()) {
-			selectedCards.remove(0);
-			selectedCards.remove(0);
-			CardUtil.sendCard(card1, cgo.players.get(0), cgo.cardsStock);
-			CardUtil.sendCard(card2, cgo.players.get(0), cgo.cardsStock);
-			cgo.frame.removeCard(0, card1);
-			cgo.frame.removeCard(0, card2);
+			removeCard(card1);
+			removeCard(card2);
 			return true;
 		}
 		return false;
@@ -58,7 +54,6 @@ public class OldMaid implements Ruler {
 			card.setClicked(false);
 			card.repaint();
 			return;
-
 		}
 		if (card.isClicked()) {
 			selectedCards.add(card);
@@ -66,5 +61,33 @@ public class OldMaid implements Ruler {
 			selectedCards.remove(card);
 		}
 		checkSameCards();
+	}
+
+	public void removeCard(Card card) {
+		if (selectedCards.size() != 0)
+			selectedCards.clear();
+		CardUtil.sendCard(card, cgo.players.get(0), cgo.cardsStock);
+		cgo.frame.removeCard(0, card);
+		card.repaint();
+	}
+
+	public void removeSameNumbers(ArrayList<Card> cards) {
+		int surveyPosition = 0;
+		boolean isExist;
+		do {
+			Card card = cards.get(surveyPosition);
+			isExist = false;
+			for (int i = surveyPosition+1; i < cards.size(); i++) {
+				if (card.getNumber() == cards.get(i).getNumber()) {
+					//System.out.println("same cards exist     " + card.getNumber() + "    :    " + cards.get(i).getNumber());
+					removeCard(cards.get(i));
+					removeCard(card);
+					isExist = true;
+					break;
+				}
+			}
+			if(isExist)continue;
+			surveyPosition++;
+		}while(surveyPosition < cards.size());
 	}
 }

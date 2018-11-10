@@ -54,7 +54,21 @@ public class CardGameObserver {
 			CardUtil.sendCard(card, cardsStock,  players.get(playerIndex));
 			frame.addCard(playerIndex, card);
 			sended++;
+			try {
+				Thread.sleep(Preference.waitTime);
+			}catch(Exception e){}
 		}
 		return sended;
+	}
+	
+	public void sendCommand(int key) {
+		switch (key) {
+		case 0:
+			((OldMaid)(ruler)).removeSameNumbers(players.get(0).getCardList());
+			break;
+
+		default:
+			break;
+		}
 	}
 }
