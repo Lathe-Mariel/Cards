@@ -9,7 +9,6 @@ import hakubishin.NumberCard;
 
 public class CardUtil {
 
-
 	public static void createNewCards(CardHub creater, boolean hasJoker) {
 
 		ArrayList<Card> cardSet = new ArrayList<Card>();
@@ -24,6 +23,9 @@ public class CardUtil {
 			cardSet.add(new Card());
 			cardSet.add(new Card());
 		}
+		for(Iterator<Card> i = cardSet.iterator(); i.hasNext(); ) {
+			i.next().setOwner(creater);
+		}
 		Collections.shuffle(cardSet);
 		creater.cards.clear();
 		creater.cards.addAll(cardSet);
@@ -34,12 +36,19 @@ public class CardUtil {
 			i.next().setUpDown(true);
 		}
 	}
-
-
-
+/**
+ * 
+ * @param card
+ * @param origin
+ * @param destination
+ * @return if process succeeded, this method will return true. if false is backed, it means origin doesn't have the card
+ */
 	public static boolean sendCard(Card card, CardHub origin, CardHub destination) {
 		boolean isSuccess = origin.remove(card);
-		destination.add(card);
+		if (isSuccess) {
+			card.setOwner(destination);
+			destination.add(card);
+		}
 		return isSuccess;
 		//System.out.println(card.toString());
 	}

@@ -12,6 +12,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import hakubishin.card_operations.CardHub;
+
 public class Card extends JPanel {
 
 	private static CardGameObserver observer;
@@ -21,6 +23,7 @@ public class Card extends JPanel {
 	private boolean isFront;
 	private boolean isClicked = false;
 	int x = 5, y = 70, width = 50, height = 74;
+	private CardHub owner;
 
 	static {
 		try {
@@ -31,6 +34,13 @@ public class Card extends JPanel {
 		}
 	}
 
+	public void setOwner(CardHub owner) {
+		this.owner = owner;
+	}
+	public CardHub getOwner() {
+		return owner;
+	}
+	
 	public boolean isClicked() {
 		return isClicked;
 	}
