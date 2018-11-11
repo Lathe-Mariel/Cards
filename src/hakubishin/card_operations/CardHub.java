@@ -12,6 +12,7 @@ public class CardHub {
 	ArrayList<Card> cards;
 	private int maxCardNumber;
 	private JPanel field;
+	private int serialNumber;
 
 	public CardHub() {
 		cards = new ArrayList<Card>();
@@ -54,5 +55,12 @@ public class CardHub {
 		for (Iterator<Card> i = cards.iterator(); i.hasNext();) {
 			panel.add(i.next());
 		}
+	}
+	
+	void setNumber(int serialNumber) {
+		this.serialNumber = serialNumber;
+	}
+	public int getNumber() {
+		return serialNumber;
 	}
 }

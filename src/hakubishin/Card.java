@@ -37,10 +37,11 @@ public class Card extends JPanel {
 	public void setOwner(CardHub owner) {
 		this.owner = owner;
 	}
+
 	public CardHub getOwner() {
 		return owner;
 	}
-	
+
 	public boolean isClicked() {
 		return isClicked;
 	}
@@ -52,6 +53,7 @@ public class Card extends JPanel {
 	public void flip() {
 		isFront = !isFront;
 	}
+
 	public void setUpDown(boolean state) {
 		isFront = state;
 	}
@@ -65,7 +67,7 @@ public class Card extends JPanel {
 	}
 
 	public Card() {
-		setSize(100, 50);
+		setSize(50, 80);
 		image = haku;
 		symbol = "Joker";
 		isFront = false;
@@ -91,19 +93,22 @@ public class Card extends JPanel {
 		return new Dimension(50, 80);
 	}
 
+	public Dimension getMaximumSize() {
+		return new Dimension(50, 80);
+	}
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		if(isFront) {
-		g.drawImage(image, 0, 0, this);
-		g.drawString(symbol, x, y);
+		if (isFront) {
+			g.drawImage(image, 0, 0, this);
+			g.drawString(symbol, x, y);
+		} else {
+			g.drawImage(back, 0, 0, this);
+		}
 		if (isClicked) {
 			g.setColor(Color.BLACK);
 			g.draw3DRect(0, 0, width - 1, height - 1, true);
 		}
-		}else {
-			g.drawImage(back, 0, 0, this);
-		}
-
 	}
 
 	public String toString() {

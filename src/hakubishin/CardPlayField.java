@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -18,6 +17,7 @@ import javax.swing.border.EmptyBorder;
 public class CardPlayField extends JFrame {
 	CardGameObserver controller;
 	ArrayList<Card> cards1;
+	int numberOfPlayers = 0;
 
 	public void setController(CardGameObserver go) {
 		this.controller = go;
@@ -29,11 +29,15 @@ public class CardPlayField extends JFrame {
 		revalidate();
 		repaint();
 	}
-	
+
 	public void removeCard(int field, Card card) {
 		fieldPanel[field].remove(card);
 		revalidate();
 		repaint();
+	}
+
+	public int getNewPlayerNumber() {
+		return numberOfPlayers++;
 	}
 
 	private JPanel contentPane;
@@ -59,7 +63,7 @@ public class CardPlayField extends JFrame {
 	 */
 	public CardPlayField() {
 		cards1 = new ArrayList<Card>();
-		
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 500);
 		contentPane = new JPanel();
@@ -81,33 +85,36 @@ public class CardPlayField extends JFrame {
 		fieldPanel = new JPanel[3];
 		jpanel = new JPanel();
 		contentPane.add(jpanel, BorderLayout.CENTER);
-		jpanel.setLayout(new GridLayout(0, 3, 0, 0));
 
 		fieldPanel[0] = new JPanel();
-		fieldPanel[0].setLayout(new FlowLayout());
-		fieldPanel[0].setPreferredSize(new Dimension(150,600));
-		fieldPanel[0].setMaximumSize(new Dimension(150,250));
-
-		fieldPanel[1] = new JPanel();
-		fieldPanel[1].setLayout(new FlowLayout());
-		fieldPanel[1].setPreferredSize(new Dimension(150,600));
-
-		fieldPanel[2] = new JPanel();
-		fieldPanel[2].setLayout(new FlowLayout());
-		fieldPanel[2].setPreferredSize(new Dimension(150,600));
-
-		JScrollPane scrollPane_2 = new JScrollPane(fieldPanel[2]);
-		jpanel.add(scrollPane_2);
-		scrollPane_2.setPreferredSize(new Dimension(150,150));
+		fieldPanel[0].setLayout(new FlowLayout(FlowLayout.LEFT));
+		fieldPanel[0].setPreferredSize(new Dimension(420,400));
+		fieldPanel[0].setMaximumSize(new Dimension(420,400));
 
 		JScrollPane scrollPane = new JScrollPane(fieldPanel[0]);
+		scrollPane.getVerticalScrollBar().setUnitIncrement(25);
 		jpanel.add(scrollPane);
-		scrollPane.setPreferredSize(new Dimension(150,150));
+		scrollPane.setPreferredSize(new Dimension(420, 400));
 
-		JScrollPane scrollPane_1 = new JScrollPane(fieldPanel[1]);
-		jpanel.add(scrollPane_1);
-		scrollPane.setPreferredSize(new Dimension(150,150));
+		fieldPanel[1] = new JPanel();
+		fieldPanel[1].setLayout(new FlowLayout(FlowLayout.LEFT));
+		fieldPanel[1].setPreferredSize(new Dimension(420,400));
+		fieldPanel[1].setMaximumSize(new Dimension(420,400));
 
+		JScrollPane scrollPane1 = new JScrollPane(fieldPanel[1]);
+		jpanel.add(scrollPane1);
+		scrollPane1.setPreferredSize(new Dimension(420, 400));
+		
+		fieldPanel[2] = new JPanel();
+		fieldPanel[2].setLayout(new FlowLayout(FlowLayout.LEFT));
+		fieldPanel[2].setPreferredSize(new Dimension(420,400));
+		fieldPanel[2].setMaximumSize(new Dimension(420,400));
+
+		JScrollPane scrollPane2 = new JScrollPane(fieldPanel[2]);
+		jpanel.add(scrollPane2);
+		scrollPane2.setPreferredSize(new Dimension(420, 400));
+		
+		
 	}
 	JPanel[] fieldPanel;
 	JPanel jpanel;
