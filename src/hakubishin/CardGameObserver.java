@@ -34,7 +34,7 @@ public class CardGameObserver {
 	}
 
 	public void createPlayer(int max, String name, boolean isHuman) {
-		players.add(new Player(name, max, frame.getNewPlayerNumber(), isHuman));
+		players.add(new Player(name, max, frame.addNewPlayer(name), isHuman));
 	}
 
 	public void fire(Card card) {

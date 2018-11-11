@@ -22,7 +22,7 @@ public class Card extends JPanel {
 	Image image;
 	private boolean isFront;
 	private boolean isClicked = false;
-	int x = 5, y = 70, width = 50, height = 74;
+	int x = 5, y = 70, width = 50, height = 80;
 	private CardHub owner;
 
 	static {
@@ -106,8 +106,8 @@ public class Card extends JPanel {
 			g.drawImage(back, 0, 0, this);
 		}
 		if (isClicked) {
-			g.setColor(Color.BLACK);
-			g.draw3DRect(0, 0, width - 1, height - 1, true);
+			g.setColor(Color.GRAY);
+			g.draw3DRect(0, 0, width - 1, height - 1, false);
 		}
 	}
 

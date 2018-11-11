@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
@@ -36,7 +37,9 @@ public class CardPlayField extends JFrame {
 		repaint();
 	}
 
-	public int getNewPlayerNumber() {
+	public int addNewPlayer(String name) {
+		if(playerName.length > numberOfPlayers) {
+		playerName[numberOfPlayers].setText(name);}
 		return numberOfPlayers++;
 	}
 
@@ -63,6 +66,9 @@ public class CardPlayField extends JFrame {
 	 */
 	public CardPlayField() {
 		cards1 = new ArrayList<Card>();
+		playerName = new JLabel[3];
+		playerPanel = new JPanel[3];
+		northArea = new JPanel[3];
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 500);
@@ -86,37 +92,31 @@ public class CardPlayField extends JFrame {
 		jpanel = new JPanel();
 		contentPane.add(jpanel, BorderLayout.CENTER);
 
-		fieldPanel[0] = new JPanel();
-		fieldPanel[0].setLayout(new FlowLayout(FlowLayout.LEFT));
-		fieldPanel[0].setPreferredSize(new Dimension(420,400));
-		fieldPanel[0].setMaximumSize(new Dimension(420,400));
+for(int i =0; i < 3; i++) {
+		playerPanel[i] = new JPanel(new BorderLayout());
+		 northArea[i] = new JPanel();
+		playerPanel[i].add(northArea[i], BorderLayout.NORTH);
+		fieldPanel[i] = new JPanel();
+		fieldPanel[i].setLayout(new FlowLayout(FlowLayout.LEFT));
+		fieldPanel[i].setPreferredSize(new Dimension(420,400));
+		fieldPanel[i].setMaximumSize(new Dimension(420,400));
+		playerName[i] = new JLabel();
+		northArea[i].add(playerName[i]);
 
-		JScrollPane scrollPane = new JScrollPane(fieldPanel[0]);
+		JScrollPane scrollPane = new JScrollPane(fieldPanel[i]);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(25);
-		jpanel.add(scrollPane);
-		scrollPane.setPreferredSize(new Dimension(420, 400));
+		playerPanel[i].add(scrollPane, BorderLayout.CENTER);
+		scrollPane.setPreferredSize(new Dimension(420, 300));
+		jpanel.add(playerPanel[i]);
+}
 
-		fieldPanel[1] = new JPanel();
-		fieldPanel[1].setLayout(new FlowLayout(FlowLayout.LEFT));
-		fieldPanel[1].setPreferredSize(new Dimension(420,400));
-		fieldPanel[1].setMaximumSize(new Dimension(420,400));
 
-		JScrollPane scrollPane1 = new JScrollPane(fieldPanel[1]);
-		jpanel.add(scrollPane1);
-		scrollPane1.setPreferredSize(new Dimension(420, 400));
-		
-		fieldPanel[2] = new JPanel();
-		fieldPanel[2].setLayout(new FlowLayout(FlowLayout.LEFT));
-		fieldPanel[2].setPreferredSize(new Dimension(420,400));
-		fieldPanel[2].setMaximumSize(new Dimension(420,400));
-
-		JScrollPane scrollPane2 = new JScrollPane(fieldPanel[2]);
-		jpanel.add(scrollPane2);
-		scrollPane2.setPreferredSize(new Dimension(420, 400));
-		
-		
 	}
+	JPanel[] playerPanel;
 	JPanel[] fieldPanel;
 	JPanel jpanel;
+
+	JLabel[] playerName;
+	JPanel[] northArea;
 
 }
