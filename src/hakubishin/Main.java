@@ -9,7 +9,7 @@ public class Main {
 		go.init();
 		baba.setObserver(go);
 		go.setRuler(baba);
-		baba.start();
+		baba.init();
 	}
 
 }

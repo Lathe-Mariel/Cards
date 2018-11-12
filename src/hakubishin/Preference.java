@@ -1,6 +1,6 @@
 package hakubishin;
 
 public class Preference {
-public static int waitTime = 80;
-public static int intervalTime = 3000;
+public static int waitTime = 70;
+public static int intervalTime = 2000;
 }

@@ -69,7 +69,6 @@ public class CardGameObserver {
 				break;
 			card.setUpDown(state);
 			sendCard(card, cardsStock, player);
-			//frame.addCard(playerIndex, card);
 			sended++;
 			try {
 				Thread.sleep(Preference.waitTime);
@@ -84,6 +83,9 @@ public class CardGameObserver {
 		switch (key) {
 		case 0:
 			ruler.pushButton1();
+			break;
+		case 9:
+			ruler.renew();
 			break;
 		default:
 			break;

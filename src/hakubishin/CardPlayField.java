@@ -115,6 +115,11 @@ public class CardPlayField extends JFrame {
 		menuBar.add(mnMenu);
 
 		menuItem = new JMenuItem("再戦<New Game>");
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.sendCommand(9);
+			}
+		});
 		mnMenu.add(menuItem);
 		fieldPanel = new JPanel[3];
 		jpanel = new JPanel();

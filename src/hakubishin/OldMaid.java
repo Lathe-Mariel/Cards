@@ -12,7 +12,6 @@ public class OldMaid extends Thread implements Ruler {
 	private CardGameObserver cgo;
 	private ArrayList<Card> selectedPlayerCards;
 	private Card selectedPullCard = null;
-	private boolean isPlayerTurn = true;
 	private int turn = 0;
 	private Timer t;
 
@@ -20,11 +19,19 @@ public class OldMaid extends Thread implements Ruler {
 		selectedPlayerCards = new ArrayList<Card>();
 	}
 
+	public void renew() {
+		CardHub player = null;
+		for (Iterator<CardHub> i = cgo.players.iterator(); i.hasNext();) {
+			player = i.next();
+			while (player.getCardList().size() > 0) {
+				cgo.sendCard(player.getCardList().get(0), player, cgo.cardsStock);
+			}
+		}
+		cgo.cardsStock.reshuffle();
+		start();
+	}
+
 	public void start() {
-		cgo.punishCard("Joker");
-		cgo.createPlayer(54, "うさぎ～ぬ", true);
-		cgo.createPlayer(54, "ハクビ神", false);
-		cgo.createPlayer(54,  "宅急便のネコ", false);
 		cgo.provideCards(18, 0, true);
 		cgo.provideCards(18, 1, false);
 		cgo.provideCards(18, 2, false);
@@ -38,7 +45,19 @@ public class OldMaid extends Thread implements Ruler {
 				computeProcess();
 			}
 		}, Preference.intervalTime, 5000);
+		try {
+			t.wait();
+		} catch (Exception e) {
+		}
 		cgo.frame.setTurn(0);
+	}
+
+	public void init() {
+		cgo.punishCard("Joker");
+		cgo.createPlayer(54, "うさぎ～ぬ", true);
+		cgo.createPlayer(54, "ハクビ神", false);
+		cgo.createPlayer(54, "宅急便のネコ", false);
+		start();
 	}
 
 	public void setObserver(CardGameObserver cgo) {
@@ -72,16 +91,17 @@ public class OldMaid extends Thread implements Ruler {
 	}
 
 	private void isWin() {
-		for(Iterator<CardHub> i = cgo.players.iterator(); i.hasNext();) {
+		for (Iterator<CardHub> i = cgo.players.iterator(); i.hasNext();) {
 			CardHub player = i.next();
-			if(player.getCardList().size() == 0) clear(player);
+			if (player.getCardList().size() == 0)
+				clear(player);
 		}
 	}
-	
+
 	private void computeProcess() {
-		if (turn ==0)
+		if (turn == 0)
 			return;
-		int nextPosition = turn ==2?0:turn+1;
+		int nextPosition = turn == 2 ? 0 : turn + 1;
 		CardHub destination = cgo.players.get(turn);
 		int pickUpPosition = (int) (Math.random() * 54);
 		CardHub origin = cgo.players.get(nextPosition);
@@ -95,14 +115,17 @@ public class OldMaid extends Thread implements Ruler {
 		turn = nextPosition;
 		cgo.frame.setTurn(nextPosition);
 	}
-	
+
 	private void clear(CardHub player) {
-		t.cancel();
+		try {
+			t.cancel();
+		} catch (Exception e) {
+		}
 		cgo.frame.clearDialog(player.getPlayerName());
 	}
 
 	public void cardSelected(Card card) {
-		if(card.getOwner().getNumber() >1) {
+		if (card.getOwner().getNumber() > 1) {
 			card.setClicked(false);
 			return;
 		}
@@ -167,11 +190,12 @@ public class OldMaid extends Thread implements Ruler {
 			surveyPosition++;
 		} while (surveyPosition < cards.size());
 	}
-	
+
 	public void pushButton1() {
 		removeSameNumbers(cgo.players.get(0).getCardList());
 	}
+
 	public void pushButton2() {
-		
+
 	}
 }
