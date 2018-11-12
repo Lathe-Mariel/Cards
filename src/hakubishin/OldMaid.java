@@ -2,26 +2,40 @@ package hakubishin;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import hakubishin.card_operations.CardHub;
 import hakubishin.card_operations.Player;
 
-public class OldMaid implements Ruler {
+public class OldMaid extends Thread implements Ruler {
 	private CardGameObserver cgo;
 	private ArrayList<Card> selectedPlayerCards;
 	private Card selectedPullCard = null;
-	private boolean isPlayerTurn =true;
+	private boolean isPlayerTurn = true;
+	private Timer t;
 
 	public OldMaid() {
 		selectedPlayerCards = new ArrayList<Card>();
 	}
 
 	public void start() {
+		t = new Timer();
+		t.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+				System.out.println("run");
+				computeProcess();
+			}
+		}, 5000, 5000);
+		cgo.punishCard("Joker");
 		cgo.createPlayer(54, "うさぎ～ぬ", true);
 		cgo.createPlayer(54, "ハクビ神", false);
 		int a = cgo.provideCards(26, 0, true);
-		System.out.println(a);
-		int b = cgo.provideCards(26, 1, false);
-		System.out.println(b);
+		//System.out.println(a);
+		int b = cgo.provideCards(27, 1, false);
+		removeSameNumbers(cgo.players.get(1).getCardList());
+		//System.out.println(b);
 	}
 
 	public void setObserver(CardGameObserver cgo) {
@@ -54,6 +68,22 @@ public class OldMaid implements Ruler {
 		return false;
 	}
 
+	private void computeProcess() {
+		System.out.println("computeProcess");
+		if (isPlayerTurn)
+			return;
+		CardHub destination = cgo.players.get(1);
+		int pickUpPosition = (int) (Math.random() * 54);
+		CardHub origin = cgo.players.get(0);
+		ArrayList<Card> cardList = origin.getCardList();
+		pickUpPosition %= cardList.size();
+		Card card = cardList.get(pickUpPosition);
+		card.flip();
+		cgo.sendCard(card, origin, destination);
+		removeSameNumbers(cgo.players.get(1).getCardList());
+		isPlayerTurn = true;
+	}
+
 	public void cardSelected(Card card) {
 		if (((Player) card.getOwner()).isHuman()) {
 			if (selectedPlayerCards.size() > 2) {
@@ -74,6 +104,7 @@ public class OldMaid implements Ruler {
 						card.setClicked(false);
 						card.flip();
 						cgo.sendCard(card, cgo.players.get(1), cgo.players.get(0));
+						isPlayerTurn = false;
 						selectedPullCard = null;
 					} else {
 						selectedPullCard.setClicked(false);
@@ -89,8 +120,7 @@ public class OldMaid implements Ruler {
 	public void removeCard(Card card) {
 		if (selectedPlayerCards.size() != 0)
 			selectedPlayerCards.clear();
-		cgo.sendCard(card, cgo.players.get(0), cgo.cardsStock);
-		cgo.frame.removeCard(0, card);
+		cgo.sendCard(card, card.getOwner(), cgo.cardsStock);
 		card.repaint();
 	}
 

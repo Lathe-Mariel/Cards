@@ -76,4 +76,9 @@ public class NumberCard extends Card {
 	public String toString() {
 		return type + number;
 	}
+	
+	public boolean equals(String name) {
+		if(name.equals(type + "number"))return true;
+		return false;
+	}
 }

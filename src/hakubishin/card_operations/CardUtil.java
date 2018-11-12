@@ -9,7 +9,7 @@ import hakubishin.NumberCard;
 
 public class CardUtil {
 
-	public void createNewCards(CardHub creater, boolean hasJoker) {
+	public void createNewCards(CardHub creater, int jokerNumber) {
 
 		ArrayList<Card> cardSet = new ArrayList<Card>();
 
@@ -19,8 +19,7 @@ public class CardUtil {
 			cardSet.add(new NumberCard(i, "spade"));
 			cardSet.add(new NumberCard(i, "crover"));
 		}
-		if (hasJoker) {
-			cardSet.add(new Card());
+		while (jokerNumber-- > 0 ) {
 			cardSet.add(new Card());
 		}
 		for(Iterator<Card> i = cardSet.iterator(); i.hasNext(); ) {

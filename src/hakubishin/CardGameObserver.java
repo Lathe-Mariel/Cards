@@ -1,6 +1,7 @@
 package hakubishin;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import hakubishin.card_operations.CardHub;
 import hakubishin.card_operations.CardUtil;
@@ -12,21 +13,34 @@ public class CardGameObserver {
 	CardPlayField frame = null;
 	ArrayList<Player> players;
 	CardUtil cardUtil;
+	boolean processing = false;
 
 	public void init() {
 		cardUtil = new CardUtil();
 		players = new ArrayList<Player>();
 		try {
 			frame = new CardPlayField();
+			
 			frame.setVisible(true);
 			frame.setController(this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		cardsStock = new CardHub();
-		cardUtil.createNewCards(cardsStock, true);
+		cardUtil.createNewCards(cardsStock, 2);
 		cardUtil.allFaceUp(cardsStock.getCardList());
 		Card.setObserver(this);
+	}
+
+	public void punishCard(String name) {
+		ArrayList<Card> cardlist = cardsStock.getCardList();
+		for(Iterator<Card> i = cardlist.iterator(); i.hasNext();) {
+			Card card = i.next();
+			if(card.equals(name)) {
+				cardlist.remove(card);
+				break;
+			}
+		}
 	}
 
 	public void setRuler(Ruler ruler) {
@@ -38,10 +52,15 @@ public class CardGameObserver {
 	}
 
 	public void fire(Card card) {
+		if(processing) {
+			card.setClicked(false);
+			return;
+		}
 		ruler.cardSelected(card);
 	}
 
 	public int provideCards(int number, int playerIndex, boolean state) {
+		processing = true;
 		int sended = 0;
 		CardHub player = players.get(playerIndex);
 		for (int i = 0; i < number; i++) {
@@ -57,15 +76,15 @@ public class CardGameObserver {
 			} catch (Exception e) {
 			}
 		}
+		processing = false;
 		return sended;
 	}
 
 	public void sendCommand(int key) {
 		switch (key) {
 		case 0:
-			((OldMaid) (ruler)).removeSameNumbers(players.get(0).getCardList());
+			((OldMaid)(ruler)).removeSameNumbers(players.get(0).getCardList());
 			break;
-
 		default:
 			break;
 		}
@@ -75,7 +94,6 @@ public class CardGameObserver {
 		boolean b = cardUtil.sendCard(card, origin, destination);
 		if(origin instanceof Player) {
 			frame.removeCard(origin.getNumber(), card);
-
 		}
 		if(destination instanceof Player) {
 			frame.addCard(destination.getNumber(), card);

@@ -5,11 +5,11 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO 自動生成されたメソッド・スタブ
 		CardGameObserver go = new CardGameObserver();
-		go.init();
 		OldMaid baba = new OldMaid();
+		go.init();
 		baba.setObserver(go);
-		baba.start();
 		go.setRuler(baba);
+		baba.start();
 	}
 
 }

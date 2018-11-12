@@ -114,4 +114,9 @@ public class Card extends JPanel {
 	public String toString() {
 		return symbol;
 	}
+	
+	public boolean equals(String name) {
+		if(name.equals("Joker"))return true;
+		return false;
+	}
 }
