@@ -69,7 +69,10 @@ public class OldMaid extends Thread implements Ruler {
 	}
 
 	private void computeProcess() {
-		System.out.println("computeProcess");
+		for(Iterator<CardHub> i = cgo.players.iterator(); i.hasNext();) {
+			CardHub player = i.next();
+			if(player.getCardList().size() == 0) clear(player);
+		}
 		if (isPlayerTurn)
 			return;
 		CardHub destination = cgo.players.get(1);
@@ -82,6 +85,11 @@ public class OldMaid extends Thread implements Ruler {
 		cgo.sendCard(card, origin, destination);
 		removeSameNumbers(cgo.players.get(1).getCardList());
 		isPlayerTurn = true;
+	}
+	
+	private void clear(CardHub player) {
+		t.cancel();
+		cgo.frame.clearDialog(player.getPlayerName());
 	}
 
 	public void cardSelected(Card card) {

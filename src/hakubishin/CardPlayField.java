@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
@@ -42,6 +46,11 @@ public class CardPlayField extends JFrame {
 		playerName[numberOfPlayers].setText(name);}
 		return numberOfPlayers++;
 	}
+	
+	public void clearDialog(String playerName) {
+		JOptionPane.showMessageDialog(this, playerName + "の勝ち");
+	}
+	
 
 	private JPanel contentPane;
 
@@ -87,7 +96,17 @@ public class CardPlayField extends JFrame {
 				controller.sendCommand(0);
 			}
 		});
-		panel.add(button);
+		panel.setLayout(new BorderLayout(0, 0));
+		panel.add(button, BorderLayout.WEST);
+		
+		menuBar = new JMenuBar();
+		panel.add(menuBar, BorderLayout.NORTH);
+		
+		mnMenu = new JMenu("Menu");
+		menuBar.add(mnMenu);
+		
+		menuItem = new JMenuItem("再戦<New Game>");
+		mnMenu.add(menuItem);
 		fieldPanel = new JPanel[3];
 		jpanel = new JPanel();
 		contentPane.add(jpanel, BorderLayout.CENTER);
@@ -118,5 +137,8 @@ for(int i =0; i < 3; i++) {
 
 	JLabel[] playerName;
 	JPanel[] northArea;
+	private JMenuBar menuBar;
+	private JMenu mnMenu;
+	private JMenuItem menuItem;
 
 }

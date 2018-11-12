@@ -11,13 +11,13 @@ public class CardGameObserver {
 	Ruler ruler;
 	CardHub cardsStock;
 	CardPlayField frame = null;
-	ArrayList<Player> players;
+	ArrayList<CardHub> players;
 	CardUtil cardUtil;
 	boolean processing = false;
 
 	public void init() {
 		cardUtil = new CardUtil();
-		players = new ArrayList<Player>();
+		players = new ArrayList<CardHub>();
 		try {
 			frame = new CardPlayField();
 			

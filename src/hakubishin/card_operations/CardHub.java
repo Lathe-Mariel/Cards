@@ -13,15 +13,17 @@ public class CardHub {
 	private int maxCardNumber;
 	private JPanel field;
 	private int serialNumber;
+	private String playerName;
 
 	public CardHub() {
 		cards = new ArrayList<Card>();
 		maxCardNumber = 54;
 	}
 
-	public CardHub(int max) {
+	public CardHub(String name, int max) {
 		this();
 		this.maxCardNumber = max;
+		this.playerName = name;
 	}
 
 	boolean add(Card card) {
@@ -62,5 +64,9 @@ public class CardHub {
 	}
 	public int getNumber() {
 		return serialNumber;
+	}
+	
+	public String getPlayerName() {
+		return playerName;
 	}
 }
