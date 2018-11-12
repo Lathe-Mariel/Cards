@@ -20,7 +20,7 @@ public class CardGameObserver {
 		players = new ArrayList<CardHub>();
 		try {
 			frame = new CardPlayField();
-			
+
 			frame.setVisible(true);
 			frame.setController(this);
 		} catch (Exception e) {
@@ -34,9 +34,9 @@ public class CardGameObserver {
 
 	public void punishCard(String name) {
 		ArrayList<Card> cardlist = cardsStock.getCardList();
-		for(Iterator<Card> i = cardlist.iterator(); i.hasNext();) {
+		for (Iterator<Card> i = cardlist.iterator(); i.hasNext();) {
 			Card card = i.next();
-			if(card.equals(name)) {
+			if (card.equals(name)) {
 				cardlist.remove(card);
 				break;
 			}
@@ -52,7 +52,7 @@ public class CardGameObserver {
 	}
 
 	public void fire(Card card) {
-		if(processing) {
+		if (processing) {
 			card.setClicked(false);
 			return;
 		}
@@ -60,8 +60,8 @@ public class CardGameObserver {
 	}
 
 	public int provideCards(int number, int playerIndex, boolean state) {
-		processing = true;
 		int sended = 0;
+		processing = true;
 		CardHub player = players.get(playerIndex);
 		for (int i = 0; i < number; i++) {
 			Card card = cardsStock.next();
@@ -69,6 +69,7 @@ public class CardGameObserver {
 				break;
 			card.setUpDown(state);
 			sendCard(card, cardsStock, player);
+			frame.repaint();
 			sended++;
 			try {
 				Thread.sleep(Preference.waitTime);
@@ -94,10 +95,10 @@ public class CardGameObserver {
 
 	public boolean sendCard(Card card, CardHub origin, CardHub destination) {
 		boolean b = cardUtil.sendCard(card, origin, destination);
-		if(origin instanceof Player) {
+		if (origin instanceof Player) {
 			frame.removeCard(origin.getNumber(), card);
 		}
-		if(destination instanceof Player) {
+		if (destination instanceof Player) {
 			frame.addCard(destination.getNumber(), card);
 		}
 		return b;

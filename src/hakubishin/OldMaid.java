@@ -20,6 +20,7 @@ public class OldMaid extends Thread implements Ruler {
 	}
 
 	public void renew() {
+		t.cancel();
 		CardHub player = null;
 		for (Iterator<CardHub> i = cgo.players.iterator(); i.hasNext();) {
 			player = i.next();
@@ -35,13 +36,14 @@ public class OldMaid extends Thread implements Ruler {
 		cgo.provideCards(18, 0, true);
 		cgo.provideCards(18, 1, false);
 		cgo.provideCards(18, 2, false);
+		try {
+		}catch(Exception e) {}
 		removeSameNumbers(cgo.players.get(1).getCardList());
 		removeSameNumbers(cgo.players.get(2).getCardList());
 		t = new Timer();
 		t.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
-				System.out.println("run");
 				computeProcess();
 			}
 		}, Preference.intervalTime, 5000);
@@ -49,6 +51,7 @@ public class OldMaid extends Thread implements Ruler {
 			t.wait();
 		} catch (Exception e) {
 		}
+		turn = 0;
 		cgo.frame.setTurn(0);
 	}
 
@@ -178,7 +181,6 @@ public class OldMaid extends Thread implements Ruler {
 			isExist = false;
 			for (int i = surveyPosition + 1; i < cards.size(); i++) {
 				if (card.getNumber() == cards.get(i).getNumber()) {
-					//System.out.println("same cards exist     " + card.getNumber() + "    :    " + cards.get(i).getNumber());
 					removeCard(cards.get(i));
 					removeCard(card);
 					isExist = true;
