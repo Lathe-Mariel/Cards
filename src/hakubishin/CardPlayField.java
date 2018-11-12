@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -23,7 +24,16 @@ public class CardPlayField extends JFrame {
 	CardGameObserver controller;
 	ArrayList<Card> cards1;
 	int numberOfPlayers = 0;
+	int panelNumber = 3;
 
+	public void setTurn(int i) {
+		for(int j = 0; j < panelNumber; j++) {
+			playerName[j].setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
+		}
+		playerName[i].setFont(new Font(Font.DIALOG, Font.BOLD, 24));
+		repaint();
+	}
+	
 	public void setController(CardGameObserver go) {
 		this.controller = go;
 	}
@@ -46,11 +56,10 @@ public class CardPlayField extends JFrame {
 		playerName[numberOfPlayers].setText(name);}
 		return numberOfPlayers++;
 	}
-	
+
 	public void clearDialog(String playerName) {
-		JOptionPane.showMessageDialog(this, playerName + "の勝ち");
+		JOptionPane.showMessageDialog(this, playerName + "の勝ち～");
 	}
-	
 
 	private JPanel contentPane;
 
@@ -98,20 +107,20 @@ public class CardPlayField extends JFrame {
 		});
 		panel.setLayout(new BorderLayout(0, 0));
 		panel.add(button, BorderLayout.WEST);
-		
+
 		menuBar = new JMenuBar();
 		panel.add(menuBar, BorderLayout.NORTH);
-		
+
 		mnMenu = new JMenu("Menu");
 		menuBar.add(mnMenu);
-		
+
 		menuItem = new JMenuItem("再戦<New Game>");
 		mnMenu.add(menuItem);
 		fieldPanel = new JPanel[3];
 		jpanel = new JPanel();
 		contentPane.add(jpanel, BorderLayout.CENTER);
 
-for(int i =0; i < 3; i++) {
+for(int i =0; i < panelNumber; i++) {
 		playerPanel[i] = new JPanel(new BorderLayout());
 		 northArea[i] = new JPanel();
 		playerPanel[i].add(northArea[i], BorderLayout.NORTH);
@@ -123,7 +132,7 @@ for(int i =0; i < 3; i++) {
 		northArea[i].add(playerName[i]);
 
 		JScrollPane scrollPane = new JScrollPane(fieldPanel[i]);
-		scrollPane.getVerticalScrollBar().setUnitIncrement(25);
+		scrollPane.getVerticalScrollBar().setUnitIncrement(15);
 		playerPanel[i].add(scrollPane, BorderLayout.CENTER);
 		scrollPane.setPreferredSize(new Dimension(420, 300));
 		jpanel.add(playerPanel[i]);

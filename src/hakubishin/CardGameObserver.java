@@ -83,7 +83,7 @@ public class CardGameObserver {
 	public void sendCommand(int key) {
 		switch (key) {
 		case 0:
-			((OldMaid)(ruler)).removeSameNumbers(players.get(0).getCardList());
+			ruler.pushButton1();
 			break;
 		default:
 			break;
