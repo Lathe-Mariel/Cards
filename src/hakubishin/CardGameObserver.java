@@ -105,22 +105,7 @@ public class CardGameObserver {
 				}
 			}
 		}
-		//			timer = new Timer(true);
-		//			timer.schedule(thread, 0, 100);
-		//		CardHub player = players.get(playerIndex);
-		//		for (int i = 0; i < number; i++) {
-		//			Card card = cardsStock.next();
-		//			if (card == null)
-		//				break;
-		//			card.setUpDown(state);
-		//			sendCard(card, cardsStock, player);
-		//			frame.repaint();
-		//			sended++;
-		//			try {
-		//				Thread.sleep(Preference.waitTime);
-		//			} catch (Exception e) {
-		//			}
-		//		}
+		
 		processing = false;
 		return thread.sended;
 	}
