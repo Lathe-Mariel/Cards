@@ -21,14 +21,7 @@ public class OldMaid extends Thread implements Ruler {
 
 	public void run() {
 		t.cancel();
-		CardHub player = null;
-		for (Iterator<CardHub> i = cgo.players.iterator(); i.hasNext();) {
-			player = i.next();
-			while (player.getCardList().size() > 0) {
-				cgo.sendCard(player.getCardList().get(0), player, cgo.cardsStock);
-			}
-		}
-		cgo.cardsStock.reshuffle();
+		cgo.returnAllCards();
 		start();
 	}
 
@@ -37,8 +30,8 @@ public class OldMaid extends Thread implements Ruler {
 		cgo.provideCards(18, 1, false);
 		cgo.provideCards(18, 2, false);
 		turn = 3;
-		removeSameNumbers(cgo.players.get(1).getCardList());
-		removeSameNumbers(cgo.players.get(2).getCardList());
+		autoRemoveSameNumbers(cgo.players.get(1).getCardList());
+		autoRemoveSameNumbers(cgo.players.get(2).getCardList());
 		turn = 0;
 		t = new Timer();
 		t.scheduleAtFixedRate(new TimerTask() {
@@ -112,7 +105,7 @@ public class OldMaid extends Thread implements Ruler {
 		Card card = cardList.get(pickUpPosition);
 		card.setUpDown(false);
 		cgo.sendCard(card, origin, destination);
-		removeSameNumbers(cgo.players.get(turn).getCardList());
+		autoRemoveSameNumbers(cgo.players.get(turn).getCardList());
 		isWin();
 		turn = nextPosition;
 		cgo.frame.setTurn(nextPosition);
@@ -172,7 +165,7 @@ public class OldMaid extends Thread implements Ruler {
 		card.repaint();
 	}
 
-	public void removeSameNumbers(ArrayList<Card> cards) {
+	public void autoRemoveSameNumbers(ArrayList<Card> cards) {
 		int surveyPosition = 0;
 		boolean isExist;
 		do {
@@ -185,10 +178,12 @@ public class OldMaid extends Thread implements Ruler {
 					card1.setUpDown(true);
 					try {
 						if (turn != 0)
-							Thread.sleep(300);
+							Thread.sleep(Preference.SLEEP_AT_DISSAPEAR);
 
-					} catch (Exception e) {
+					} catch (Exception e) {e.printStackTrace();
 					}
+					card.setClicked(false);
+					cards.get(i).setClicked(false);
 					removeCard(cards.get(i));
 					removeCard(card);
 					isExist = true;
@@ -202,7 +197,7 @@ public class OldMaid extends Thread implements Ruler {
 	}
 
 	public void pushButton1() {
-		removeSameNumbers(cgo.players.get(0).getCardList());
+		autoRemoveSameNumbers(cgo.players.get(0).getCardList());
 	}
 
 	public void pushButton2() {

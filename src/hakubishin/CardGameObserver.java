@@ -45,6 +45,20 @@ public class CardGameObserver {
 			}
 		}
 	}
+	
+	void returnAllCards() {
+		CardHub player = null;
+		for (Iterator<CardHub> i = players.iterator(); i.hasNext();) {
+			player = i.next();
+			while (player.getCardList().size() > 0) {
+				sendCard(player.getCardList().get(0), player, cardsStock);
+			}
+		}
+		for(Iterator<Card> i = cardsStock.getCardList().iterator(); i.hasNext();) {
+			i.next().setClicked(false);
+		}
+		cardsStock.reshuffle();
+	}
 
 	public void setRuler(Ruler ruler) {
 		this.ruler = ruler;

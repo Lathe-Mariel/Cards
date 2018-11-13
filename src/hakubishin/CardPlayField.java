@@ -92,7 +92,7 @@ public class CardPlayField extends JFrame {
 		northArea = new JPanel[3];
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 500);
+		setBounds(100, 100, 900, 800);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -134,8 +134,9 @@ for(int i =0; i < panelNumber; i++) {
 		playerPanel[i].add(northArea[i], BorderLayout.NORTH);
 		fieldPanel[i] = new JPanel();
 		fieldPanel[i].setLayout(new FlowLayout(FlowLayout.LEFT));
-		fieldPanel[i].setPreferredSize(new Dimension(420,400));
+		fieldPanel[i].setPreferredSize(new Dimension(400,400));
 		fieldPanel[i].setMaximumSize(new Dimension(420,400));
+		fieldPanel[i].setBackground(Preference.BACKGROUND);
 		playerName[i] = new JLabel();
 		northArea[i].add(playerName[i]);
 
