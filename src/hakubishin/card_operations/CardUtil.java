@@ -51,5 +51,4 @@ public class CardUtil {
 		return isSuccess;
 		//System.out.println(card.toString());
 	}
-
 }

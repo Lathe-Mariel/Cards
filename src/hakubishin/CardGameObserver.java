@@ -2,6 +2,9 @@ package hakubishin;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Timer;
+
+import javax.swing.SwingUtilities;
 
 import hakubishin.card_operations.CardHub;
 import hakubishin.card_operations.CardUtil;
@@ -59,25 +62,67 @@ public class CardGameObserver {
 		ruler.cardSelected(card);
 	}
 
-	public int provideCards(int number, int playerIndex, boolean state) {
+	class ProvideCards extends Thread {
 		int sended = 0;
-		processing = true;
-		CardHub player = players.get(playerIndex);
-		for (int i = 0; i < number; i++) {
-			Card card = cardsStock.next();
-			if (card == null)
-				break;
-			card.setUpDown(state);
+		private Card card;
+		private CardHub player;
+
+		public ProvideCards(Card card, CardHub player, boolean state) {
+			this.card = card;
+			this.player = player;
+		}
+
+		public void run() {
 			sendCard(card, cardsStock, player);
-			frame.repaint();
 			sended++;
 			try {
 				Thread.sleep(Preference.waitTime);
 			} catch (Exception e) {
 			}
 		}
+	}
+
+	Timer timer;
+
+	public synchronized int provideCards(int number, int playerIndex, boolean state) {
+		processing = true;
+		CardHub player = players.get(playerIndex);
+		ProvideCards thread = null;
+
+		for (int i = 0; i < number; i++) {
+			Card card = cardsStock.next();
+			if (card != null) {
+				card.setUpDown(state);
+				try {
+					thread = new ProvideCards(card, player, state);
+					if (!SwingUtilities.isEventDispatchThread()) {
+						SwingUtilities.invokeAndWait(thread);
+					} else {
+						System.out.println("thread.run");
+						thread.run();
+					}
+				} catch (Exception e) {
+				}
+			}
+		}
+		//			timer = new Timer(true);
+		//			timer.schedule(thread, 0, 100);
+		//		CardHub player = players.get(playerIndex);
+		//		for (int i = 0; i < number; i++) {
+		//			Card card = cardsStock.next();
+		//			if (card == null)
+		//				break;
+		//			card.setUpDown(state);
+		//			sendCard(card, cardsStock, player);
+		//			frame.repaint();
+		//			sended++;
+		//			try {
+		//				Thread.sleep(Preference.waitTime);
+		//			} catch (Exception e) {
+		//			}
+		//		}
 		processing = false;
-		return sended;
+		return thread.sended;
 	}
 
 	public void sendCommand(int key) {
@@ -86,7 +131,9 @@ public class CardGameObserver {
 			ruler.pushButton1();
 			break;
 		case 9:
-			ruler.renew();
+			//ruler.renew();
+			Thread newGame = new Thread(ruler);
+			newGame.start();
 			break;
 		default:
 			break;

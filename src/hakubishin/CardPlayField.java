@@ -1,6 +1,7 @@
 package hakubishin;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
@@ -29,8 +30,10 @@ public class CardPlayField extends JFrame {
 	public void setTurn(int i) {
 		for(int j = 0; j < panelNumber; j++) {
 			playerName[j].setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
+			playerName[j].setForeground(Color.BLACK);
 		}
 		playerName[i].setFont(new Font(Font.DIALOG, Font.BOLD, 24));
+		playerName[i].setForeground(Color.BLUE);
 		repaint();
 	}
 	

@@ -19,7 +19,7 @@ public class OldMaid extends Thread implements Ruler {
 		selectedPlayerCards = new ArrayList<Card>();
 	}
 
-	public void renew() {
+	public void run() {
 		t.cancel();
 		CardHub player = null;
 		for (Iterator<CardHub> i = cgo.players.iterator(); i.hasNext();) {
@@ -36,8 +36,10 @@ public class OldMaid extends Thread implements Ruler {
 		cgo.provideCards(18, 0, true);
 		cgo.provideCards(18, 1, false);
 		cgo.provideCards(18, 2, false);
+
 		try {
-		}catch(Exception e) {}
+		} catch (Exception e) {
+		}
 		removeSameNumbers(cgo.players.get(1).getCardList());
 		removeSameNumbers(cgo.players.get(2).getCardList());
 		t = new Timer();
@@ -46,7 +48,7 @@ public class OldMaid extends Thread implements Ruler {
 			public void run() {
 				computeProcess();
 			}
-		}, Preference.intervalTime, 5000);
+		}, 5000, Preference.intervalTime);
 		try {
 			t.wait();
 		} catch (Exception e) {
