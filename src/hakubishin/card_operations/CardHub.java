@@ -10,20 +10,23 @@ import hakubishin.Card;
 
 public class CardHub {
 	ArrayList<Card> cards;
-	private int maxCardNumber;
-	private JPanel field;
 	private int serialNumber;
 	private String playerName;
+	private boolean showable;
 
 	public CardHub() {
 		cards = new ArrayList<Card>();
-		maxCardNumber = 54;
 	}
 
-	public CardHub(String name, int max) {
+	public CardHub(String name) {
 		this();
-		this.maxCardNumber = max;
 		this.playerName = name;
+	}
+
+	public CardHub(String name, int number, boolean showable) {
+		this(name);
+		this.serialNumber = number;
+		this.showable = showable;
 	}
 
 	boolean add(Card card) {
@@ -58,15 +61,22 @@ public class CardHub {
 			panel.add(i.next());
 		}
 	}
-	
-	void setNumber(int serialNumber) {
+
+	void setSerialNumber(int serialNumber) {
 		this.serialNumber = serialNumber;
 	}
-	public int getNumber() {
+	public int getSerialNumber() {
 		return serialNumber;
 	}
-	
+
 	public String getPlayerName() {
 		return playerName;
+	}
+
+	public void setShowable(boolean b) {
+		showable = b;
+	}
+	public boolean isShowable() {
+		return showable;
 	}
 }

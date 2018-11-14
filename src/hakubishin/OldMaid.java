@@ -5,8 +5,9 @@ import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.SwingUtilities;
+
 import hakubishin.card_operations.CardHub;
-import hakubishin.card_operations.Player;
 
 public class OldMaid extends Thread implements Ruler {
 	private CardGameObserver cgo;
@@ -48,10 +49,25 @@ public class OldMaid extends Thread implements Ruler {
 	}
 
 	public void init() {
+		try {
+			SwingUtilities.invokeAndWait(new Runnable() {
+				public void run() {
+					try {
+						cgo.frame.createSmallField(3);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		} catch (Exception f) {
+			f.printStackTrace();
+		}
+		cgo.frame.createSmallField(3);
 		cgo.punishCard("Joker");
-		cgo.createPlayer(54, "うさぎ～ぬ", true);
-		cgo.createPlayer(54, "ハクビ神", false);
-		cgo.createPlayer(54, "宅急便のネコ", false);
+		cgo.createPlayer( "うさぎ～ぬ", true);
+		cgo.createPlayer( "ハクビ神", true);
+		cgo.createPlayer( "宅急便のネコ", true);
+
 		start();
 	}
 
@@ -94,7 +110,7 @@ public class OldMaid extends Thread implements Ruler {
 	}
 
 	private void computeProcess() {
-		if (turn == 0 || selectedPlayerCards.size() !=0)
+		if (turn == 0 || selectedPlayerCards.size() != 0)
 			return;
 		int nextPosition = turn == 2 ? 0 : turn + 1;
 		CardHub destination = cgo.players.get(turn);
@@ -113,18 +129,18 @@ public class OldMaid extends Thread implements Ruler {
 
 	private void clear(CardHub player) {
 		try {
-			t.cancel();
+			t.cancel();	//stop timer which poses computeProcess()
 		} catch (Exception e) {
 		}
 		cgo.frame.clearDialog(player.getPlayerName());
 	}
 
 	public void cardSelected(Card card) {
-		if (card.getOwner().getNumber() > 1) {
+		if (card.getOwner().getSerialNumber() > 1) {
 			card.setClicked(false);
 			return;
 		}
-		if (((Player) card.getOwner()).isHuman()) {
+		if ( card.getOwner().getSerialNumber() ==0) {
 			if (selectedPlayerCards.size() > 2) {
 				card.setClicked(false);
 				card.repaint();
@@ -180,7 +196,8 @@ public class OldMaid extends Thread implements Ruler {
 						if (turn != 0)
 							Thread.sleep(Preference.SLEEP_AT_DISSAPEAR);
 
-					} catch (Exception e) {e.printStackTrace();
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
 					card.setClicked(false);
 					cards.get(i).setClicked(false);

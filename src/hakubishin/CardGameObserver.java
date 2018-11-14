@@ -8,7 +8,6 @@ import javax.swing.SwingUtilities;
 
 import hakubishin.card_operations.CardHub;
 import hakubishin.card_operations.CardUtil;
-import hakubishin.card_operations.Player;
 
 public class CardGameObserver {
 	Ruler ruler;
@@ -45,7 +44,7 @@ public class CardGameObserver {
 			}
 		}
 	}
-	
+
 	void returnAllCards() {
 		CardHub player = null;
 		for (Iterator<CardHub> i = players.iterator(); i.hasNext();) {
@@ -64,8 +63,8 @@ public class CardGameObserver {
 		this.ruler = ruler;
 	}
 
-	public void createPlayer(int max, String name, boolean isHuman) {
-		players.add(new Player(name, max, frame.addNewPlayer(name), isHuman));
+	public void createPlayer( String name, boolean isHuman) {
+		players.add(new CardHub(name, frame.addNewPlayer(name), isHuman));
 	}
 
 	public void fire(Card card) {
@@ -98,6 +97,13 @@ public class CardGameObserver {
 
 	Timer timer;
 
+/**
+ *
+ * @param number	How many cards do you want to provide
+ * @param playerIndex	Index number of players which is unique
+ * @param state	Card's state, wheather front or back
+ * @return
+ */
 	public synchronized int provideCards(int number, int playerIndex, boolean state) {
 		processing = true;
 		CardHub player = players.get(playerIndex);
@@ -119,7 +125,7 @@ public class CardGameObserver {
 				}
 			}
 		}
-		
+
 		processing = false;
 		return thread.sended;
 	}
@@ -141,11 +147,12 @@ public class CardGameObserver {
 
 	public boolean sendCard(Card card, CardHub origin, CardHub destination) {
 		boolean b = cardUtil.sendCard(card, origin, destination);
-		if (origin instanceof Player) {
-			frame.removeCard(origin.getNumber(), card);
+		if (origin.isShowable()) {
+			frame.removeCard(origin.getSerialNumber(), card);
+
 		}
-		if (destination instanceof Player) {
-			frame.addCard(destination.getNumber(), card);
+		if (destination.isShowable()) {
+			frame.addCard(destination.getSerialNumber(), card);
 		}
 		return b;
 	}
