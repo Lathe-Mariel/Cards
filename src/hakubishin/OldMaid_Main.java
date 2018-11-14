@@ -11,5 +11,4 @@ public class OldMaid_Main {
 		go.setRuler(baba);
 		baba.init();
 	}
-
 }

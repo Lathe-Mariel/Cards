@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -40,6 +39,7 @@ public class CardPlayField extends JFrame {
 	}
 
 	public void addCard(int field, Card card) {
+		System.out.println("4");
 		fieldPanel[field].add(card);
 		revalidate();
 		repaint();
@@ -191,7 +191,7 @@ playerName[0] = new JButton();
 			}else {
 				jpanel.add(playerPanel[i], BorderLayout.EAST);
 			}
-			fieldPanel[0] = new JPanel(new GridLayout(0,9));
+			fieldPanel[0] = new JPanel(new CardsLayout(6,9));
 			fieldPanel[0].setPreferredSize(new Dimension(700, 600));
 			jpanel.add(fieldPanel[0]);
 		}

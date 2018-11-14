@@ -104,7 +104,7 @@ public class CardGameObserver {
  * @param state	Card's state, wheather front or back
  * @return
  */
-	public synchronized int provideCards(int number, int playerIndex, boolean state) {
+	public int provideCards(int number, int playerIndex, boolean state) {
 		processing = true;
 		CardHub player = players.get(playerIndex);
 		ProvideCards thread = null;
