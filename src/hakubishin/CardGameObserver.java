@@ -63,8 +63,8 @@ public class CardGameObserver {
 		this.ruler = ruler;
 	}
 
-	public void createPlayer( String name, boolean isHuman) {
-		players.add(new CardHub(name, frame.addNewPlayer(name), isHuman));
+	public void createPlayer( String name, boolean isShowable) {
+		players.add(new CardHub(name, frame.addNewPlayer(name), isShowable));
 	}
 
 	public void fire(Card card) {

@@ -49,9 +49,17 @@ public class Card extends JPanel {
 	public void setClicked(boolean b) {
 		isClicked = b;
 	}
+	public boolean isFront() {
+		return isFront;
+	}
 
+	public void setFront(boolean isFront) {
+		this.isFront = isFront;
+	}
 	public void flip() {
 		isFront = !isFront;
+		isClicked = false;
+		repaint();
 	}
 
 	public void setUpDown(boolean state) {
@@ -114,7 +122,7 @@ public class Card extends JPanel {
 	public String toString() {
 		return symbol;
 	}
-	
+
 	public boolean equals(String name) {
 		if(name.equals("Joker"))return true;
 		return false;
