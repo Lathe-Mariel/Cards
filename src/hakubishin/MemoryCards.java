@@ -44,8 +44,6 @@ public class MemoryCards implements Ruler {
 		System.out.println(processCards.size());
 
 		card.flip();
-		//		try {
-		//		Thread.sleep(700);}catch(Exception e) {e.printStackTrace();}
 		processCards.add(card);
 		try {
 			new Thread(new Runnable() {
@@ -105,6 +103,9 @@ public class MemoryCards implements Ruler {
 				public void run() {
 					try {
 						cgo.frame.createSmallField(2);
+						cgo.frame.createCenterField(3);//this number must consists of field(it means players + 1)
+						
+						//cgo.createPlayer( "宅急便のネコ", true);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -113,11 +114,9 @@ public class MemoryCards implements Ruler {
 		} catch (Exception f) {
 			f.printStackTrace();
 		}
-		cgo.frame.createCenterField(3);//this number must consists of field(it means players + 1)
 		cgo.createPlayer("", true);//field
 		cgo.createPlayer("うさぎ～ぬ", true);//user1
 		cgo.createPlayer("ハクビ神", true);//com1
-		//cgo.createPlayer( "宅急便のネコ", true);
 
 		start();
 	}

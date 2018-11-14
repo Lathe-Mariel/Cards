@@ -2,7 +2,6 @@ package hakubishin;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Timer;
 
 import javax.swing.SwingUtilities;
 
@@ -94,8 +93,6 @@ public class CardGameObserver {
 			}
 		}
 	}
-
-	Timer timer;
 
 /**
  *

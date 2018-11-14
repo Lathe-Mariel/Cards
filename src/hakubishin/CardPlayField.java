@@ -39,13 +39,6 @@ public class CardPlayField extends JFrame {
 	}
 
 	public void addCard(int field, Card card) {
-		System.out.println("4");
-		fieldPanel[field].add(card);
-		revalidate();
-		repaint();
-	}
-	
-	public void addCardGrid(int field, Card card) {
 		fieldPanel[field].add(card);
 		revalidate();
 		repaint();
@@ -90,10 +83,12 @@ public class CardPlayField extends JFrame {
 	 * Create the frame.
 	 */
 	public CardPlayField() {
+		setMaximumSize(new Dimension(2147483647, 1024));
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 800);
 		contentPane = new JPanel();
+		contentPane.setMaximumSize(new Dimension(32767, 1024));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
@@ -160,6 +155,7 @@ public class CardPlayField extends JFrame {
 	void createCenterField(int number) {
 		this.playerNumber = number;
 		jpanel = new JPanel(new BorderLayout());
+		jpanel.setMaximumSize(new Dimension(0, 900));
 		fieldPanel = new JPanel[playerNumber];
 		playerName = new JButton[playerNumber];
 		playerPanel = new JPanel[playerNumber];
@@ -193,6 +189,7 @@ playerName[0] = new JButton();
 			}
 			fieldPanel[0] = new JPanel(new CardsLayout(6,9));
 			fieldPanel[0].setPreferredSize(new Dimension(700, 600));
+			fieldPanel[0].setMaximumSize(new Dimension(0,900));
 			jpanel.add(fieldPanel[0]);
 		}
 	}

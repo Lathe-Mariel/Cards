@@ -88,7 +88,10 @@ public class Card extends JPanel {
 			}
 		});
 	}
-
+	public boolean isVisible() {
+		return true;
+	}
+	
 	private void fireClick() {
 		observer.fire(this);
 	}
