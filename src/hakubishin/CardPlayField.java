@@ -160,28 +160,31 @@ public class CardPlayField extends JFrame {
 		playerName = new JButton[playerNumber];
 		playerPanel = new JPanel[playerNumber];
 		northArea = new JPanel[playerNumber];
-		
+
 		contentPane.add(jpanel, BorderLayout.CENTER);
-playerName[0] = new JButton();
+		playerName[0] = new JButton();
 		for(int i = 1; i < playerNumber; i++) {
-			playerPanel[i] = new JPanel(new BorderLayout());
+			playerPanel[i] = new JPanel(new FlowLayout());
 			fieldPanel[i] = new JPanel();
 			northArea[i] = new JPanel();
 			playerName[i]= new JButton();
 			northArea[i].add(playerName[i]);
-			playerPanel[i].add(northArea[i],  BorderLayout.NORTH);
+			playerPanel[i].add(northArea[i]);
 			playerName[i].addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					JOptionPane.showMessageDialog(jpanel, "レベル：－２　　　　攻撃力：１　　　　防御力：１０００００");
 				}
 			});
 			playerPanel[i].setMaximumSize(new Dimension(300,300));
-			fieldPanel[i].setPreferredSize(new Dimension(200, 0));
-
-			fieldPanel[i].setMaximumSize(new Dimension(200, 200));
-			fieldPanel[i].setLayout(new FlowLayout(FlowLayout.LEFT));
+			playerPanel[i].setPreferredSize(new Dimension(190,250));
+			fieldPanel[i].setPreferredSize(new Dimension(0, 900));
+			//fieldPanel[i].setLayout(new FlowLayout(FlowLayout.LEFT));
+			fieldPanel[i].setLayout(new CardStocker(5));
 			fieldPanel[i].setBackground(Preference.BACKGROUND);
-			playerPanel[i].add(fieldPanel[i], BorderLayout.CENTER);
+			JScrollPane scrollPane = new JScrollPane(fieldPanel[i]);
+			scrollPane.getVerticalScrollBar().setUnitIncrement(15);
+			playerPanel[i].add(scrollPane);
+			scrollPane.setPreferredSize(new Dimension(200, 200));
 			if(i%2 == 0) {
 				jpanel.add(playerPanel[i], BorderLayout.WEST);
 			}else {
@@ -203,5 +206,4 @@ playerName[0] = new JButton();
 	private JMenuBar menuBar;
 	private JMenu mnMenu;
 	private JMenuItem menuItem;
-
 }

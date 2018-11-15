@@ -30,6 +30,7 @@ public class NumberCard extends Card {
 	public NumberCard(int number, String mark) {
 		super();
 		this.number = number;
+		x = 34;
 		if (mark.equals("heart")) {
 			type = "heart";
 			image = markHeart;
@@ -48,26 +49,40 @@ public class NumberCard extends Card {
 			image = markCrover;
 			color = Color.red;
 		}
-		if (number == 1)
+		if (number == 1) {
 			symbol = "A";
-		else if (number == 11)
+			
+			x -= 3;}
+		else if (number == 10) {
+			x = 20;
+			symbol = Integer.valueOf(number).toString();}
+		else if (number == 11) {
 			symbol = "J";
-		else if (number == 12)
+			x -= 3;}
+		else if (number == 12) {
 			symbol = "Q";
-		else if (number == 13)
+			x -= 6;}
+		else if (number == 13) {
 			symbol = "K";
+			x -= 4;}
 		else {
 			symbol = Integer.valueOf(number).toString();
 		}
 	}
-	
+
 	public int getNumber() {
 		return number;
 	}
 
 	public void paintComponent(Graphics g) {
 		//super.paintComponent(g);
-		Font font = new Font("SansSerif", Font.BOLD, 30);
+		int fontSize = 25;
+		shiftX = 0;
+		if(isClicked()) {
+		fontSize = 40;
+		shiftX = -8;
+		}
+		Font font = new Font("SansSerif", Font.BOLD, fontSize);
 		g.setFont(font);
 		g.setColor(color);
 		super.paintComponent(g);
@@ -76,7 +91,7 @@ public class NumberCard extends Card {
 	public String toString() {
 		return type + number;
 	}
-	
+
 	public boolean equals(String name) {
 		if(name.equals(type + "number"))return true;
 		return false;
