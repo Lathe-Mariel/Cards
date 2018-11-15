@@ -46,7 +46,7 @@ public class CardsLayout extends FlowLayout {
 					m.setSize(d.width, d.height);
 
 					int componentOrder = componentMap.indexOf(m);
-					System.out.println(componentOrder);
+					//System.out.println(componentOrder);
 					int x = (componentOrder % column) * rateX;
 					int y = (componentOrder / column) * rateY;
 

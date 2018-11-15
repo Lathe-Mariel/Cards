@@ -125,7 +125,7 @@ public class Card extends JPanel {
 			g.drawString(symbol, x + shiftX, y);
 		} else {
 			g.drawImage(back, 0, 0, this);
-			g.drawString(symbol,  x + shiftX,  y);
+			//g.drawString(symbol,  x + shiftX,  y);
 		}
 		if (isClicked) {
 			g.setColor(Color.GRAY);
