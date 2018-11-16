@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,6 +18,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 public class CardPlayField extends JFrame {
@@ -24,13 +26,17 @@ public class CardPlayField extends JFrame {
 	int currentPlayerNumber = 0;
 	int playerNumber = 3;
 
-	public void setTurn(int i) {
+	public void setTurn(int playerSerialNumber, int score) {
+			playerScore[playerSerialNumber].setText(score + "");
+		setTurn(playerSerialNumber);
+	}
+	public void setTurn(int playerSerialNumber) {
 		for (int j = 0; j < playerNumber; j++) {
 			playerName[j].setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
 			playerName[j].setForeground(Color.BLACK);
 		}
-		playerName[i].setFont(new Font(Font.DIALOG, Font.BOLD, 24));
-		playerName[i].setForeground(Color.BLUE);
+		playerName[playerSerialNumber].setFont(new Font(Font.DIALOG, Font.BOLD, 24));
+		playerName[playerSerialNumber].setForeground(Color.BLUE);
 		repaint();
 	}
 
@@ -160,6 +166,7 @@ public class CardPlayField extends JFrame {
 		playerName = new JButton[playerNumber];
 		playerPanel = new JPanel[playerNumber];
 		northArea = new JPanel[playerNumber];
+		playerScore = new JTextField[playerNumber];
 
 		contentPane.add(jpanel, BorderLayout.CENTER);
 		playerName[0] = new JButton();
@@ -168,6 +175,7 @@ public class CardPlayField extends JFrame {
 			fieldPanel[i] = new JPanel();
 			northArea[i] = new JPanel();
 			playerName[i]= new JButton();
+			playerName[i].setMargin(new Insets(0,0,0,0));
 			northArea[i].add(playerName[i]);
 			playerPanel[i].add(northArea[i]);
 			playerName[i].addActionListener(new ActionListener() {
@@ -175,10 +183,11 @@ public class CardPlayField extends JFrame {
 					JOptionPane.showMessageDialog(jpanel, "レベル：－２　　　　攻撃力：１　　　　防御力：１０００００");
 				}
 			});
+			playerScore[i] = new JTextField(3);
+			northArea[i].add(playerScore[i]);
 			playerPanel[i].setMaximumSize(new Dimension(300,300));
 			playerPanel[i].setPreferredSize(new Dimension(190,250));
 			fieldPanel[i].setPreferredSize(new Dimension(0, 900));
-			//fieldPanel[i].setLayout(new FlowLayout(FlowLayout.LEFT));
 			fieldPanel[i].setLayout(new CardStocker(5));
 			fieldPanel[i].setBackground(Preference.BACKGROUND);
 			JScrollPane scrollPane = new JScrollPane(fieldPanel[i]);
@@ -202,6 +211,7 @@ public class CardPlayField extends JFrame {
 	JPanel jpanel;
 
 	JButton[] playerName;
+	JTextField[] playerScore;
 	JPanel[] northArea;
 	private JMenuBar menuBar;
 	private JMenu mnMenu;

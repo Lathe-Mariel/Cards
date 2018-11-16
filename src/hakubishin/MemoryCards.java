@@ -31,6 +31,8 @@ public class MemoryCards implements Ruler {
 
 	@Override
 	public void run() {
+		for(int i= 0; i < cgo.players.size(); i++)
+			cgo.frame.setTurn(i, 0);
 		cardMapping.clear();
 		cgo.returnAllCards();
 		start();
@@ -153,12 +155,21 @@ public class MemoryCards implements Ruler {
 		if (turn == playerNumber + 1) {
 			turn -= playerNumber;
 		}
-		cgo.frame.setTurn(turn);
-		System.out.println(turn + " 's turn");
+		cgo.frame.setTurn(turn, cgo.players.get(turn).getCardList().size());
+		if(cgo.players.get(0).getCardList().size() == 0) {
+			tally();return;
+		}
+		//System.out.println(turn + " 's turn");
 
 		if (turn != 1) {
 			new ComputerPlayer().start();
 		}
+	}
+	/**
+	 * confirm the result, players vs computers
+	 */
+	private void tally() {
+		
 	}
 
 	@Override
