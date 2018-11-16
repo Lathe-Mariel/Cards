@@ -25,6 +25,7 @@ public class Card extends JPanel {
 	int x = 30, y = 70, width = 50, height = 80;
 	private CardHub owner;
 	int shiftX = 0;
+	JPanel container;
 
 	static {
 		try {
@@ -34,6 +35,10 @@ public class Card extends JPanel {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void setContainer(JPanel container) {
+		this.container = container;
 	}
 
 	public void setOwner(CardHub owner) {
@@ -95,6 +100,8 @@ public class Card extends JPanel {
 			public void mousePressed(MouseEvent me) {
 				isClicked = !isClicked;
 				setClicked(isClicked);
+				container.revalidate();
+				container.repaint();
 				fireClick();
 				repaint();
 			}
@@ -111,10 +118,19 @@ public class Card extends JPanel {
 
 	public int getNumber() {
 		return 0;
+
 	}
 
 	public Dimension getPreferredSize() {
-		return new Dimension(50, 80);
+		if (isClicked) {
+			width = 60;
+			height = 96;
+			return new Dimension(60, 96);
+		} else {
+			width = 50;
+			height = 80;
+			return new Dimension(50, 80);
+		}
 	}
 
 	public Dimension getMaximumSize() {
@@ -124,7 +140,7 @@ public class Card extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if (isFront) {
-			g.drawImage(image, 0, 0, this);
+			g.drawImage(image, 0, 0, width, height, this);
 			g.drawString(symbol, x + shiftX, y);
 		} else {
 			g.drawImage(back, 0, 0, this);

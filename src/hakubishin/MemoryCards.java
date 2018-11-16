@@ -16,6 +16,7 @@ public class MemoryCards implements Ruler {
 	private boolean process;
 	private int playerNumber;
 	ArrayList<Card> cardMapping;//memorizing cards which already opened for computer players
+	private int howStrong;
 
 	public MemoryCards() {
 		processCards = new ArrayList<Card>();
@@ -31,15 +32,16 @@ public class MemoryCards implements Ruler {
 
 	@Override
 	public void run() {
-		for(int i= 0; i < cgo.players.size(); i++)
+		for (int i = 1; i < cgo.players.size(); i++)
 			cgo.frame.setTurn(i, 0);
 		cardMapping.clear();
 		cgo.returnAllCards();
 		start();
 	}
-/**
- * This method will be called by Card objects via CardGameObserver, when mouse event occured
- */
+
+	/**
+	 * This method will be called by Card objects via CardGameObserver, when mouse event occured
+	 */
 	@Override
 	public void cardSelected(Card card) {
 		// TODO 自動生
@@ -99,6 +101,10 @@ public class MemoryCards implements Ruler {
 			}
 			Card card1 = processCards.get(0);
 			Card card2 = processCards.get(1);
+			card1.setClicked(false);
+			card1.revalidate();
+			card2.setClicked(false);
+			card2.revalidate();
 			System.out.println("card1: " + card1.toString() + "    :    card2: " + card2.toString());
 			if (card1.getNumber() == card2.getNumber()) {
 				cgo.sendCard(card1, card1.getOwner(), cgo.players.get(turn));
@@ -149,29 +155,37 @@ public class MemoryCards implements Ruler {
 		cgo.createPlayer("うさぎ～ぬ", true);//user1
 		cgo.createPlayer("ハクビ神", true);//com1
 
+		howStrong = 9;
+		cgo.frame.setLevel(howStrong / 3);
 		start();
 	}
 
+	/**
+	 * proceed to the next player
+	 * if it's computer player's turn, this method will make new thread which stands for computer movement(only one turn)
+	 */
 	private void proceedTurn() {
 		turn++;
 		if (turn == playerNumber + 1) {
 			turn -= playerNumber;
 		}
 		cgo.frame.setTurn(turn, cgo.players.get(turn).getCardList().size());
-		if(cgo.players.get(0).getCardList().size() == 0) {
-			tally();return;
+		if (cgo.players.get(0).getCardList().size() == 0) {
+			tally();
+			return;
 		}
 		//System.out.println(turn + " 's turn");
 
 		if (turn != 1) {
-			new ComputerPlayer().start();
+			new ComputerPlayer().start();//make new computer player's thread that picking up only two cards(just one step)
 		}
 	}
+
 	/**
 	 * confirm the result, players vs computers
 	 */
 	private void tally() {
-		
+
 	}
 
 	@Override
@@ -185,29 +199,42 @@ public class MemoryCards implements Ruler {
 		process = false;
 	}
 
+	/**
+	 * increase howStrong
+	 */
 	@Override
 	public void pushButton1() {
 		// TODO 自動生成されたメソッド・スタブ
-
+		howStrong += 3;
+		if (howStrong > 54)
+			howStrong = 54;
+		cgo.frame.setLevel(howStrong / 3);
 	}
 
+	/**
+	 * decrease howStrong
+	 */
 	@Override
 	public void pushButton2() {
 		// TODO 自動生成されたメソッド・スタブ
+		howStrong -= 3;
+		if (howStrong < 0)
+			howStrong = 0;
+		cgo.frame.setLevel(howStrong / 3);
+	}
 
+	@Override
+	public void numberCommand(int number) {
+		howStrong = number * 3;
 	}
 
 	class ComputerPlayer extends Thread {
 
 		public ComputerPlayer() {
-			this(0);
-		}
-
-		public ComputerPlayer(int howStrong) {
-			super();
 		}
 
 		public void run() {
+			oblivion();
 			ArrayList<Card> samecards = isThereSameCards();
 			if (samecards.isEmpty()) {
 				int pickUpCardNumber1 = (int) (Math.random() * cgo.players.get(0).getCardList().size());
@@ -227,17 +254,24 @@ public class MemoryCards implements Ruler {
 				}
 				pickUpCard(card2);
 			} else {
-				System.out.println("hit");
+				//System.out.println("hit");
 				Card card1 = samecards.get(0);
 				Card card2 = samecards.get(1);
 				pickUpCard(card1);
 				try {
-					sleep((int)(Preference.COMPUTER_PICKUP_INTERVAL * 1.5));
+					sleep((int) (Preference.COMPUTER_PICKUP_INTERVAL * 1.5));
 				} catch (Exception e) {
 					System.out.println("ComputerPlayer - run() 2");
 					e.printStackTrace();
 				}
 				pickUpCard(card2);
+			}
+		}
+
+		private void oblivion() {
+			while (cardMapping.size() > howStrong) {
+				cardMapping.remove(0);
+				System.out.println("oblivion");
 			}
 		}
 

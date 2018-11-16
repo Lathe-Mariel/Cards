@@ -1,5 +1,7 @@
 package hakubishin;
 
+import java.awt.Dimension;
+
 public class MemoryCards_Main {
 
 	public static void main(String[] args) {
@@ -8,6 +10,7 @@ public class MemoryCards_Main {
 		MemoryCards memo = new MemoryCards();
 		go.init();
 		memo.setObserver(go);
+		go.frame.setSize(new Dimension(900,620));
 		go.setRuler(memo);
 		memo.init();
 	}

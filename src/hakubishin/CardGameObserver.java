@@ -132,6 +132,9 @@ public class CardGameObserver {
 		case 0:
 			ruler.pushButton1();
 			break;
+		case 1:
+			ruler.pushButton2();
+			break;
 		case 9:
 			//ruler.renew();
 			Thread newGame = new Thread(ruler);
@@ -141,14 +144,17 @@ public class CardGameObserver {
 			break;
 		}
 	}
+	public void sendNumberCommand(int number) {
+		ruler.numberCommand(number);
+	}
 
 	public boolean sendCard(Card card, CardHub origin, CardHub destination) {
 		boolean b = cardUtil.sendCard(card, origin, destination);
 		if (origin.isShowable()) {
 			frame.removeCard(origin.getSerialNumber(), card);
-
 		}
 		if (destination.isShowable()) {
+			card.setContainer(frame.getCardContainer(destination.getSerialNumber()));
 			frame.addCard(destination.getSerialNumber(), card);
 		}
 		return b;

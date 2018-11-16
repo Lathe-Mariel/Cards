@@ -9,4 +9,6 @@ public interface Ruler extends Runnable{
 	void pushButton1();
 
 	void pushButton2();
+	
+	void numberCommand(int number);
 }

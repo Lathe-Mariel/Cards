@@ -10,8 +10,11 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -19,6 +22,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
 public class CardPlayField extends JFrame {
@@ -26,6 +31,14 @@ public class CardPlayField extends JFrame {
 	int currentPlayerNumber = 0;
 	int playerNumber = 3;
 
+	public void setLevel(int level) {
+		comboBox.setSelectedIndex(level);
+	}
+
+
+	public JPanel getCardContainer(int index) {
+		return fieldPanel[index];
+	}
 	public void setTurn(int playerSerialNumber, int score) {
 			playerScore[playerSerialNumber].setText(score + "");
 		setTurn(playerSerialNumber);
@@ -102,15 +115,7 @@ public class CardPlayField extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setPreferredSize(new Dimension(10, 60));
 		contentPane.add(panel, BorderLayout.NORTH);
-
-		JButton button = new JButton("同じカードを捨てる<throw away doubled cards>");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controller.sendCommand(0);
-			}
-		});
 		panel.setLayout(new BorderLayout(0, 0));
-		panel.add(button, BorderLayout.WEST);
 
 		menuBar = new JMenuBar();
 		panel.add(menuBar, BorderLayout.NORTH);
@@ -125,6 +130,48 @@ public class CardPlayField extends JFrame {
 			}
 		});
 		mnMenu.add(menuItem);
+
+		mnGeneral = new JMenu("General");
+		menuBar.add(mnGeneral);
+
+		mntmOption = new JMenuItem("オプション<Option>");
+		mntmOption.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		mnGeneral.add(mntmOption);
+
+		panel_1 = new JPanel();
+		panel_1.setName("");
+		FlowLayout flowLayout = (FlowLayout) panel_1.getLayout();
+		flowLayout.setHgap(10);
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		panel.add(panel_1, BorderLayout.CENTER);
+
+				button = new JButton("カード処理");
+				panel_1.add(button);
+				button.setFont(new Font("HG創英角ﾎﾟｯﾌﾟ体", Font.PLAIN, 14));
+				button.setMargin(new Insets(2, 2, 2, 2));
+
+				label = new JLabel("レベル");
+				label.setAlignmentX(0.5f);
+				label.setFont(new Font("HG創英角ﾎﾟｯﾌﾟ体", Font.PLAIN, 14));
+				panel_1.add(label);
+
+				comboBox = new JComboBox();
+				comboBox.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						controller.sendNumberCommand(comboBox.getSelectedIndex());
+					}
+				});
+				comboBox.setModel(new DefaultComboBoxModel(new String[] {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18"}));
+				comboBox.setFont(new Font("HG創英角ﾎﾟｯﾌﾟ体", Font.PLAIN, 14));
+				panel_1.add(comboBox);
+				button.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						controller.sendCommand(0);
+					}
+				});
 
 	}
 
@@ -159,6 +206,7 @@ public class CardPlayField extends JFrame {
 	}
 
 	void createCenterField(int number) {
+		button.setEnabled(false);
 		this.playerNumber = number;
 		jpanel = new JPanel(new BorderLayout());
 		jpanel.setMaximumSize(new Dimension(0, 900));
@@ -178,11 +226,6 @@ public class CardPlayField extends JFrame {
 			playerName[i].setMargin(new Insets(0,0,0,0));
 			northArea[i].add(playerName[i]);
 			playerPanel[i].add(northArea[i]);
-			playerName[i].addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					JOptionPane.showMessageDialog(jpanel, "レベル：－２　　　　攻撃力：１　　　　防御力：１０００００");
-				}
-			});
 			playerScore[i] = new JTextField(3);
 			northArea[i].add(playerScore[i]);
 			playerPanel[i].setMaximumSize(new Dimension(300,300));
@@ -194,6 +237,9 @@ public class CardPlayField extends JFrame {
 			scrollPane.getVerticalScrollBar().setUnitIncrement(15);
 			playerPanel[i].add(scrollPane);
 			scrollPane.setPreferredSize(new Dimension(200, 200));
+			Border border = scrollPane.getBorder();
+		    Border margin = new EmptyBorder(0,0,0,5);
+		    scrollPane.setBorder(new CompoundBorder(border, margin));
 			if(i%2 == 0) {
 				jpanel.add(playerPanel[i], BorderLayout.WEST);
 			}else {
@@ -204,6 +250,11 @@ public class CardPlayField extends JFrame {
 			fieldPanel[0].setMaximumSize(new Dimension(0,900));
 			jpanel.add(fieldPanel[0]);
 		}
+		playerName[2].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(jpanel, "レベル：" + comboBox.getSelectedIndex() +"　　　　攻撃力：1000000　　　　防御力：1");
+			}
+		});
 	}
 
 	JPanel[] playerPanel;
@@ -216,4 +267,10 @@ public class CardPlayField extends JFrame {
 	private JMenuBar menuBar;
 	private JMenu mnMenu;
 	private JMenuItem menuItem;
+	private JMenu mnGeneral;
+	private JMenuItem mntmOption;
+	private JComboBox comboBox;
+	private JPanel panel_1;
+	private JLabel label;
+	private JButton button;
 }

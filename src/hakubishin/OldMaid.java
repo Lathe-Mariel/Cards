@@ -64,9 +64,9 @@ public class OldMaid extends Thread implements Ruler {
 		}
 		cgo.frame.createSmallField(3);
 		cgo.punishCard("Joker");
-		cgo.createPlayer( "うさぎ～ぬ", true);
-		cgo.createPlayer( "ハクビ神", true);
-		cgo.createPlayer( "宅急便のネコ", true);
+		cgo.createPlayer("うさぎ～ぬ", true);
+		cgo.createPlayer("ハクビ神", true);
+		cgo.createPlayer("宅急便のネコ", true);
 
 		start();
 	}
@@ -129,7 +129,7 @@ public class OldMaid extends Thread implements Ruler {
 
 	private void clear(CardHub player) {
 		try {
-			t.cancel();	//stop timer which poses computeProcess()
+			t.cancel(); //stop timer which poses computeProcess()
 		} catch (Exception e) {
 		}
 		cgo.frame.clearDialog(player.getPlayerName());
@@ -140,7 +140,7 @@ public class OldMaid extends Thread implements Ruler {
 			card.setClicked(false);
 			return;
 		}
-		if ( card.getOwner().getSerialNumber() ==0) {
+		if (card.getOwner().getSerialNumber() == 0) {
 			if (selectedPlayerCards.size() > 2) {
 				card.setClicked(false);
 				card.repaint();
@@ -213,11 +213,17 @@ public class OldMaid extends Thread implements Ruler {
 		} while (surveyPosition < cards.size());
 	}
 
+	@Override
 	public void pushButton1() {
 		autoRemoveSameNumbers(cgo.players.get(0).getCardList());
 	}
 
+	@Override
 	public void pushButton2() {
 
+	}
+
+	@Override
+	public void numberCommand(int number) {
 	}
 }
