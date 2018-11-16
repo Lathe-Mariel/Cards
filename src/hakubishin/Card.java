@@ -50,13 +50,15 @@ public class Card extends JPanel {
 
 	public void setClicked(boolean b) {
 		isClicked = b;
-		if(this instanceof NumberCard)return;
-		if(b) {
+		if (this instanceof NumberCard)
+			return;
+		if (b) {
 			image = haku2;
-		}else {
+		} else {
 			image = haku1;
 		}
 	}
+
 	public boolean isFront() {
 		return isFront;
 	}
@@ -64,6 +66,7 @@ public class Card extends JPanel {
 	public void setFront(boolean isFront) {
 		this.isFront = isFront;
 	}
+
 	public void flip() {
 		isFront = !isFront;
 		setClicked(false);
@@ -83,7 +86,6 @@ public class Card extends JPanel {
 	}
 
 	public Card() {
-		setSize(50, 80);
 		image = haku1;
 		symbol = "Joker";
 		isFront = false;
@@ -98,6 +100,7 @@ public class Card extends JPanel {
 			}
 		});
 	}
+
 	public boolean isVisible() {
 		return true;
 	}
@@ -115,7 +118,7 @@ public class Card extends JPanel {
 	}
 
 	public Dimension getMaximumSize() {
-		return new Dimension(50, 80);
+		return new Dimension(60, 96);
 	}
 
 	public void paintComponent(Graphics g) {
@@ -138,7 +141,8 @@ public class Card extends JPanel {
 	}
 
 	public boolean equals(String name) {
-		if(name.equals("Joker"))return true;
+		if (name.equals("Joker"))
+			return true;
 		return false;
 	}
 }

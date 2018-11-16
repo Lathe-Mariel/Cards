@@ -37,7 +37,9 @@ public class MemoryCards implements Ruler {
 		cgo.returnAllCards();
 		start();
 	}
-
+/**
+ * This method will be called by Card objects via CardGameObserver, when mouse event occured
+ */
 	@Override
 	public void cardSelected(Card card) {
 		// TODO 自動生
