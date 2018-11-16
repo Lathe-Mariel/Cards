@@ -37,7 +37,7 @@ public class CardGameObserver {
 		ArrayList<Card> cardlist = cardsStock.getCardList();
 		for (Iterator<Card> i = cardlist.iterator(); i.hasNext();) {
 			Card card = i.next();
-			if (card.equals(name)) {
+			if (card.toString().equals(name)) {
 				cardlist.remove(card);
 				break;
 			}
@@ -65,7 +65,12 @@ public class CardGameObserver {
 	public void createPlayer( String name, boolean isShowable) {
 		players.add(new CardHub(name, frame.addNewPlayer(name), isShowable));
 	}
-
+/**
+ * This method will be called by Card objects when they clicked.
+ * Then this call Ruler's "cardSelected(card".
+ * This just conduct as a repeater between Card and Ruler.
+ * @param card Card stands for the card which posed event
+ */
 	public void fire(Card card) {
 		if (processing) {
 			card.setClicked(false);
@@ -95,11 +100,11 @@ public class CardGameObserver {
 	}
 
 /**
- *
+ *	Providing cards to the players from cardStock which is hold all cards before a game, just like dealer
  * @param number	How many cards do you want to provide
  * @param playerIndex	Index number of players which is unique
  * @param state	Card's state, wheather front or back
- * @return
+ * @return	Total number of sended cards
  */
 	public int provideCards(int number, int playerIndex, boolean state) {
 		processing = true;

@@ -244,7 +244,7 @@ public class MemoryCards implements Ruler {
 				}
 				Card card1 = cgo.players.get(0).getCardList().get(pickUpCardNumber1);
 				Card card2 = cgo.players.get(0).getCardList().get(pickUpCardNumber2);
-				System.out.println("pick card1");
+				//System.out.println("pick card1");
 				pickUpCard(card1);
 				try {
 					sleep(Preference.COMPUTER_PICKUP_INTERVAL);

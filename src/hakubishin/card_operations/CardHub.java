@@ -8,16 +8,35 @@ import javax.swing.JPanel;
 
 import hakubishin.Card;
 
+/**
+ * This class stands for card game players consists of players which are controlling by computer.
+ * @author akira
+ *
+ */
 public class CardHub {
 	ArrayList<Card> cards;
+	/**
+	 * This is identifying number of players.
+	 * It must be unique.
+	 */
 	private int serialNumber;
+	/**
+	 * Player Name
+	 */
 	private String playerName;
+	/**
+	 * Wheather should this player's cards are showable or not.
+	 * If object stands for cards stocker, like dealer, this must be false.
+	 */
 	private boolean showable;
 
 	public CardHub() {
 		cards = new ArrayList<Card>();
 	}
-
+/**
+ * This constracter take an arg which is Player's Name.
+ * @param name Player's Name.
+ */
 	public CardHub(String name) {
 		this();
 		this.playerName = name;
@@ -28,7 +47,12 @@ public class CardHub {
 		this.serialNumber = number;
 		this.showable = showable;
 	}
-
+/**
+ * This is called by only CardUtil class.
+ * Because to secure existence of cards
+ * @param card	This card will be add into player's card list.
+ * @return success or not
+ */
 	boolean add(Card card) {
 		cards.add(card);
 		return true;
