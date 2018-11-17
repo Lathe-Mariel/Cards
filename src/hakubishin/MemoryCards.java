@@ -185,7 +185,11 @@ public class MemoryCards implements Ruler {
 	 * confirm the result, players vs computers
 	 */
 	private void tally() {
-
+		String showMessage = "<<<集計>>>>\n";
+		for(int i = 1; i < cgo.players.size(); i++) {
+			showMessage += cgo.players.get(i).getPlayerName() + ": " + cgo.players.get(i).getCardList().size() + "枚      ";
+		}
+		cgo.frame.messageDialog(showMessage);
 	}
 
 	@Override

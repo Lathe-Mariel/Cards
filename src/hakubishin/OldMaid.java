@@ -132,7 +132,7 @@ public class OldMaid extends Thread implements Ruler {
 			t.cancel(); //stop timer which poses computeProcess()
 		} catch (Exception e) {
 		}
-		cgo.frame.clearDialog(player.getPlayerName());
+		cgo.frame.messageDialog(player.getPlayerName() + "の勝ち～");
 	}
 
 	public void cardSelected(Card card) {

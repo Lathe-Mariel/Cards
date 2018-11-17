@@ -25,7 +25,7 @@ public class CardStocker extends FlowLayout {
 				return;
 			}
 
-			int validX = target.getWidth() - i.left - i.right;
+			int validX = target.getWidth() - i.left - i.right -10;
 
 			int rateX = validX / column -2;
 			int rateY = 1 + 

@@ -21,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -75,8 +76,8 @@ public class CardPlayField extends JFrame {
 		return currentPlayerNumber++;
 	}
 
-	public void clearDialog(String playerName) {
-		JOptionPane.showMessageDialog(this, playerName + "の勝ち～");
+	public void messageDialog(String message) {
+		JOptionPane.showMessageDialog(this, message);
 	}
 
 	private JPanel contentPane;
@@ -88,7 +89,7 @@ public class CardPlayField extends JFrame {
 		setMaximumSize(new Dimension(2147483647, 1024));
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 900, 800);
+		setBounds(100, 100, 800, 800);
 		contentPane = new JPanel();
 		contentPane.setMaximumSize(new Dimension(32767, 1024));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -141,13 +142,13 @@ public class CardPlayField extends JFrame {
 				label.setFont(new Font("HG創英角ﾎﾟｯﾌﾟ体", Font.PLAIN, 14));
 				panel_1.add(label);
 
-				comboBox = new JComboBox();
+				comboBox = new JComboBox<String>();
 				comboBox.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						controller.sendNumberCommand(comboBox.getSelectedIndex());
 					}
 				});
-				comboBox.setModel(new DefaultComboBoxModel(new String[] {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18"}));
+				comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18"}));
 				comboBox.setFont(new Font("HG創英角ﾎﾟｯﾌﾟ体", Font.PLAIN, 14));
 				panel_1.add(comboBox);
 				button.addActionListener(new ActionListener() {
@@ -155,7 +156,6 @@ public class CardPlayField extends JFrame {
 						controller.sendCommand(0);
 					}
 				});
-
 	}
 
 	void createSmallField(int number) {
@@ -212,7 +212,7 @@ public class CardPlayField extends JFrame {
 			playerScore[i] = new JTextField(3);
 			northArea[i].add(playerScore[i]);
 			playerPanel[i].setMaximumSize(new Dimension(300,300));
-			playerPanel[i].setPreferredSize(new Dimension(190,250));
+			playerPanel[i].setPreferredSize(new Dimension(200,250));
 			fieldPanel[i].setPreferredSize(new Dimension(0, 900));
 			fieldPanel[i].setLayout(new CardStocker(5));
 			fieldPanel[i].setBackground(Preference.BACKGROUND);
@@ -220,19 +220,23 @@ public class CardPlayField extends JFrame {
 			scrollPane.getVerticalScrollBar().setUnitIncrement(15);
 			playerPanel[i].add(scrollPane);
 			scrollPane.setPreferredSize(new Dimension(200, 200));
-			Border border = scrollPane.getBorder();
-		    Border margin = new EmptyBorder(0,0,0,5);
-		    scrollPane.setBorder(new CompoundBorder(border, margin));
+
 			if(i%2 == 0) {
 				jpanel.add(playerPanel[i], BorderLayout.WEST);
 			}else {
 				jpanel.add(playerPanel[i], BorderLayout.EAST);
 			}
-			fieldPanel[0] = new JPanel(new CardsLayout(6,9));
-			fieldPanel[0].setPreferredSize(new Dimension(700, 600));
-			fieldPanel[0].setMaximumSize(new Dimension(0,900));
-			jpanel.add(fieldPanel[0]);
 		}
+		fieldPanel[0] = new JPanel(new CardsLayout(6,9));
+		fieldPanel[0].setPreferredSize(new Dimension(700, 600));
+		fieldPanel[0].setMaximumSize(new Dimension(0,900));
+	    fieldPanel[0].setBorder(new BevelBorder(BevelBorder.RAISED));
+	    Border border = fieldPanel[0].getBorder();
+	    Border margin = new EmptyBorder(5,5,0,0);
+	    fieldPanel[0].setBorder(new CompoundBorder(border, margin));
+		fieldPanel[0].setBackground(Preference.BACKGROUND);
+		jpanel.add(fieldPanel[0]);
+
 		playerName[2].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(jpanel, "レベル：" + comboBox.getSelectedIndex() +"　　　　攻撃力：1000000　　　　防御力：1");
@@ -252,7 +256,7 @@ public class CardPlayField extends JFrame {
 	private JMenuItem menuItem;
 	private JMenu mnGeneral;
 	private JMenuItem mntmOption;
-	private JComboBox comboBox;
+	private JComboBox<String> comboBox;
 	private JPanel panel_1;
 	private JLabel label;
 	private JButton button;
