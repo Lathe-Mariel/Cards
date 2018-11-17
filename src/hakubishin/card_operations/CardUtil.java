@@ -7,8 +7,8 @@ import java.util.Iterator;
 import hakubishin.Card;
 
 /**
- * This class generate Card set which used by card games
- * When those cards are transmitted to another class which can have cards, this class must be used as like relay point
+ * This class generate Card set which used by card games.
+ * When those cards are transmitted to another class which can have cards, this class must be used as like a check point.
  * @author akira
  *
  */
@@ -47,10 +47,10 @@ public class CardUtil {
 	}
 /**
  * When changing owner of cards, this method is the only way.
- * @param card	card which is to send
- * @param origin	where the card send from
- * @param destination where the card send to
- * @return if process succeeded, this method will return true. if false is backed, it means origin doesn't have the card
+ * @param card	card which is to send.
+ * @param origin	where the card send from.
+ * @param destination where the card send to.
+ * @return if process succeeded, this method will return true. if false is backed, it means origin doesn't have the card.
  */
 	public boolean sendCard(Card card, CardHub origin, CardHub destination) {
 		boolean isSuccess = origin.remove(card);

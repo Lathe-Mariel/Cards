@@ -9,7 +9,7 @@ import hakubishin.card_operations.CardHub;
 import hakubishin.card_operations.CardUtil;
 /**
  * This class is the core of card game API.
- * This have a Ruler object and CardPlayField object, and controll those object as a super visor.
+ * This have a Ruler object and CardPlayField object, and controll those objects as a super visor.
  * @author akira
  *
  */
@@ -129,11 +129,11 @@ public class CardGameObserver {
 	}
 
 /**
- *	Providing cards to the players from cardStock which is hold all cards before a game, just like dealer
- * @param number	How many cards do you want to provide
- * @param playerIndex	Index number of players which is unique
- * @param state	Card's state, wheather front or back
- * @return	Total number of sended cards
+ *	Providing cards to the players from cardStock which is hold all cards before a game, just like a dealer.
+ * @param number	How many cards do you want to provide.
+ * @param playerIndex	Index number of players which is unique.
+ * @param state	Card's state, wheather front or back.
+ * @return	Total number of sended cards.
  */
 	public int provideCards(int number, int playerIndex, boolean state) {
 		processing = true;
@@ -182,7 +182,7 @@ public class CardGameObserver {
 		}
 	}
 	/**
-	 * There are two ways for CardPlayField to convey information to Ruler Objects
+	 * There are two ways for CardPlayField to convey information to Ruler Objects.
 	 * This is the one, which can send a integer.
 	 * @param number This parameter is used as various information which transmits Ruler object.
 	 */
