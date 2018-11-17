@@ -7,13 +7,33 @@ import javax.swing.SwingUtilities;
 
 import hakubishin.card_operations.CardHub;
 import hakubishin.card_operations.CardUtil;
-
+/**
+ * This class is the core of card game API.
+ * This have a Ruler object and CardPlayField object, and controll those object as a super visor.
+ * @author akira
+ *
+ */
 public class CardGameObserver {
 	Ruler ruler;
+	/**
+	 * this object is used as a holder of cards.
+	 * Especially, it is used in preparation process.
+	 * All cards are stocked in this object before sending those to the players.
+	 * This object can work as a dealer too.
+	 */
 	CardHub cardsStock;
+	/**
+	 * This is a swing object which can display all play information.
+	 */
 	CardPlayField frame = null;
+	/**
+	 * This is a list of all players which consists of human player and computer players.
+	 */
 	ArrayList<CardHub> players;
 	CardUtil cardUtil;
+	/**
+	 * this is used as a locking frag
+	 */
 	boolean processing = false;
 
 	public void init() {
@@ -33,6 +53,11 @@ public class CardGameObserver {
 		Card.setObserver(this);
 	}
 
+/**
+ * This method delete a card which is in cardStock.
+ * @param name A card you want to delete must be describe as a String object. If there's a card which has same value with this param, the card send to cardsStock.
+ *
+ */
 	public void punishCard(String name) {
 		ArrayList<Card> cardlist = cardsStock.getCardList();
 		for (Iterator<Card> i = cardlist.iterator(); i.hasNext();) {
@@ -44,6 +69,10 @@ public class CardGameObserver {
 		}
 	}
 
+/**
+ * 	This method make all players return their card to the cardStock, and reshuffling cardStock.
+ * 	All returning cards make unClicked state.
+ */
 	void returnAllCards() {
 		CardHub player = null;
 		for (Iterator<CardHub> i = players.iterator(); i.hasNext();) {
@@ -132,6 +161,10 @@ public class CardGameObserver {
 		return thread.sended;
 	}
 
+	/**
+	 * This method is used as a relay by CardPlayField to trigger Ruler's methods.
+	 * @param key	This method can trigger some Ruler's methods which will be seleted by this key value.
+	 */
 	public void sendCommand(int key) {
 		switch (key) {
 		case 0:
@@ -141,7 +174,6 @@ public class CardGameObserver {
 			ruler.pushButton2();
 			break;
 		case 9:
-			//ruler.renew();
 			Thread newGame = new Thread(ruler);
 			newGame.start();
 			break;
@@ -149,10 +181,21 @@ public class CardGameObserver {
 			break;
 		}
 	}
+	/**
+	 * There are two ways for CardPlayField to convey information to Ruler Objects
+	 * This is the one, which can send a integer.
+	 * @param number This parameter is used as various information which transmits Ruler object.
+	 */
 	public void sendNumberCommand(int number) {
 		ruler.numberCommand(number);
 	}
-
+/**
+ *
+ * @param card A card which is sending from origin to destination.
+ * @param origin Origin is the player which had the card.
+ * @param destination Destination is the player which will have the card.
+ * @return If this process is succeed, this method will return true.
+ */
 	public boolean sendCard(Card card, CardHub origin, CardHub destination) {
 		boolean b = cardUtil.sendCard(card, origin, destination);
 		if (origin.isShowable()) {
