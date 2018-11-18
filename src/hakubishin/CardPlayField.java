@@ -35,7 +35,6 @@ public class CardPlayField extends JFrame {
 		comboBox.setSelectedIndex(level);
 	}
 
-
 	public JPanel getCardContainer(int index) {
 		return fieldPanel[index];
 	}
